@@ -1,4 +1,4 @@
-package com.sophia;
+package com.sophia.accounts;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

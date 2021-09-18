@@ -1,4 +1,4 @@
-package com.sophia;
+package com.sophia.accounts;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
