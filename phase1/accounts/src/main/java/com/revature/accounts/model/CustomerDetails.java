@@ -6,10 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * @author EazyBytes
- *
- */
 @Getter
 @Setter
 @ToString
