@@ -5,6 +5,6 @@ A Spring Boot based microservices application deployed on AWS cloud, shipped and
 
 ## Phase 1:
 1.  Clone Microservices application complete with the following Spring Boot services:
-  - `accounts`
-  - `cards`
-  - `loans`
+  - **Accounts**
+  - **Cards**
+  - **Loans**
