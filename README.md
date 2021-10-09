@@ -18,7 +18,7 @@ This guide is broken into several modules for learning Kubernetes:
 
 - **Phase 6: Routing &  Cross Cutting Concerns with Spring Cloud Gateway** :scissors:
 
-- **Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ** :incoming_ernvelope:
+- **Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ** :incoming_envelope:
 
 - **Phase 8: Automatic Self-Healing, Scaling & Deployments with Kubernetes** :octopus:
 
