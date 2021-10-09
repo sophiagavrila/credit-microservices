@@ -8,7 +8,6 @@ This guide is broken into several modules for learning Kubernetes:
 
 - **Phase 1: Understanding the Spring Boot Services** :brain:
 
-<<<<<<< HEAD
 - **Phase 2: How to Build, Deploy, and Scale Microservices using Docker** :whale:
 
 - **Phase 3: Configuration Management with Cloud Config** :cloud:
@@ -25,18 +24,3 @@ This guide is broken into several modules for learning Kubernetes:
 
 *Finished!* :tada:
 
-=======
-<br>
-
-```json
-{
-    "customerId" : 1
-}
-```
-
-<br>
-
-By sending the above request body to the aforementioned endpoint, you are hitting `com.revature.loans.controller.LoansController`'s `getLoansDetails()` method which returns the corresponding `Loans` objects correlated to that `customerId` in an HTTP Reponse Body.
-
-You can try sending the same Post Requst body to each of the services' controllers.
->>>>>>> dd3c76528dc47bd0158e48826378d8f0972b1c3b
