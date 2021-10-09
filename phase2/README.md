@@ -12,10 +12,11 @@ If we were deploy each of our services (loans, cards, and accounts) the traditio
 ## How do Containers Differ from Virtual Machines?
 - Containers don't need a Guest OS
 
-- Containers have their own "isolated environments" which means they don't affect eachother.
+- Containers are light weight, easy to maintain, and easy to start/stop.
+
+- Containers still have their own "isolated environments" which means they don't affect eachother, **similar to virtual machines**.
   - For example, `loans` service could run on Java 8, `cards` service could run on Java 11, and `accounts` could be coded in Python
 
-- Containers are light weight, easy to maintain, and easy to start/stop.
 
 <br>
 
