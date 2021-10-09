@@ -4,7 +4,7 @@ A Spring Boot based microservices application deployed on AWS cloud, containeriz
 <br>
 
 ## How To Use This Guide:
-This guide is broken into several modules for learning Kubernetes:
+This guide is broken into several modules for learning Microservices, Telemetry, Docker & Kubernetes:
 
 - **Phase 1: Understanding the Spring Boot Services** :brain:
 
@@ -21,6 +21,8 @@ This guide is broken into several modules for learning Kubernetes:
 - **Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ** :incoming_envelope:
 
 - **Phase 8: Automatic Self-Healing, Scaling & Deployments with Kubernetes** :octopus:
+
+<br>
 
 *Finished!* :tada:
 
