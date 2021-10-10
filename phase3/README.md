@@ -132,16 +132,23 @@ server.port=8071
 *You may not want to push all of your config properties to GitHub as a part of your application.  Instead you can store the configuration properties in a filesystem on the server that your `configserver` is being, or within a cloud storage like AWS S3 bucket.*
 
 - Save your `config` folder to somewhere in your disk like: `C://config`
+
 - In your `application.properties`, comment out the previouse location and add this search location: `#spring.cloud.config.server.native.search-locations=file:///C://config`
 
 <br>
 <br>
 
-3. **Read from GitHub Repository Approach:**
+3.  :exclamation:**Read from GitHub Repository Approach:** *Standard Approach*
 
 - Create a repository on github containing all of the `.properties` files within your `config` folder like [this](https://github.com/sophiagavrila/credit-microservices-config)
+
 - In `application.properties` of `configserver` change `spring.profiles.active=native` to `spring.profiles.active=git`
+
 - Comment out the previous `spring.cloud.config.server.native.search-locations=file:///C://config` and change it to `spring.cloud.config.server.git.uri=<your-repo>`.
+
+- Tell Cloud Server to clone your repo so it has access to all the properties with: `spring.cloud.config.server.git.clone-on-start=true`
+
+- Tel Cloud Server which branch all of your files are stored at with: `spring.cloud.config.server.git.default-label=main`
 
 *For example, your `application.properties` should look like this:*
 
@@ -154,8 +161,46 @@ spring.profiles.active=git
 
 # From GitHub repository
 spring.cloud.config.server.git.uri=https://github.com/sophiagavrila/credit-microservices-config.git
+spring.cloud.config.server.git.clone-on-start=true
+spring.cloud.config.server.git.default-label=main
 
 # The port where our config server app will run
 server.port=8071
 ```
+
+## Update Microservices to Read Properties from Config Server
+
+1. Go to `accounts` services' `pom.xml` > under the `<properties>` tag add the Spring CLoud version (which is copied from your `configserver`'s spring cloud version)
+
+<br>
+
+```xml
+<properties>
+    <java.version>1.8</java.version>
+    <spring-cloud.version>2020.0.4</spring-cloud.version>
+</properties>
+```
+
+<br>
+
+2. Create the dependency tags below the `</dependency>` tag in the bottom like so (aslo copied from `configserver`):
+
+<br>
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+<br>
+
 
