@@ -74,7 +74,52 @@ docker build . -t sophia/accounts
 
 <br>
 
+4. **Run the Container**: run `docker run -d -p 8080:8080 sophia/accounts`
+> Here we are exposing port 8080 (to be accessed from the "outside world") to our container's port 8080. Docker ports follow this pattern - `HOST : CONTAINER`
 
+The above command will start the container in "detached mode" due to the `-d`.
 
+5. View the containers running with `docker ps`.
 
+6. Open Postman and send the same POST request to `http://localhost:8080/myAccount`.  This will be processed by the application running within the Docker container.
 
+7. Back in the terminal, you can run a duplicate container (and instance of your application) by running:
+
+<br>
+
+```
+docker run -d -p 8081:8080 sophia/accounts
+```
+
+<br>
+
+> Here you are allowing the second container to be accessed via port 8081 on your local machine.  Send the same POST request to ``http://localhost:8081/myAccount` and you will receive a response by the second instance of your application running in container #2 with it's port 8080 exposed at **8081**.
+
+Deploying this application is now exceptionally easy and we can increase the number of applicaiton instances as user traffic grows.
+
+### More Docker Commands
+
+|     Docker Command       |     Description          |
+| ------------- | ------------- |
+| "docker build . -t eazybytes/accounts" | To generate a docker image based on a Dockerfile |
+| "docker run  -p 8081:8080 eazybytes/accounts" | To start a docker container based on a given image |
+| "docker images" | To list all the docker images present in the Docker server |
+| "docker image inspect image-id" | To display detailed image information for a given image id |
+| "docker image rm image-id" | To remove one or more images for a given image ids |
+| "docker image push docker.io/eazybytes/accounts" | To push an image or a repository to a registry |
+| "docker image pull docker.io/eazybytes/accounts" | To pull an image or a repository from a registry |
+| "docker ps" | To show all running containers |
+| "docker ps -a" | To show all containers including running and stopped |
+| "docker container start container-id" | To start one or more stopped containers |
+| "docker container pause container-id" | To pause all processes within one or more containers |
+| "docker container unpause container-id" | To unpause all processes within one or more containers |
+| "docker container stop container-id" | To stop one or more running containers |
+| "docker container kill container-id" | To kill one or more running containers instantly |
+| "docker container restart container-id" | To restart one or more containers |
+| "docker container inspect container-id" | To inspect all the details for a given container id |
+| "docker container logs container-id" | To fetch the logs of a given container id |
+| "docker container logs -f container-id" | To follow log output of a given container id |
+| "docker container rm container-id" | To remove one or more containers based on container ids |
+| "docker container prune" | To remove all stopped containers |
+| "docker compose up" | To create and start containers based on given docker compose file |
+| "docker compose stop" | To stop services |
