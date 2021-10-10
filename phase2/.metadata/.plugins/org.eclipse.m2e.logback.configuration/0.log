@@ -127,3 +127,4 @@
 2021-10-09 20:25:38,154 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2021-10-09 20:25:38,156 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2021-10-09 20:25:38,156 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-10-09 20:25:38,156 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\SophieGavrila\Desktop\credit-microservices\phase2\accounts\src\test\resources
