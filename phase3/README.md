@@ -140,4 +140,22 @@ server.port=8071
 3. **Read from GitHub Repository Approach:**
 
 - Create a repository on github containing all of the `.properties` files within your `config` folder like [this](https://github.com/sophiagavrila/credit-microservices-config)
+- In `application.properties` of `configserver` change `spring.profiles.active=native` to `spring.profiles.active=git`
+- Comment out the previous `spring.cloud.config.server.native.search-locations=file:///C://config` and change it to `spring.cloud.config.server.git.uri=<your-repo>`.
+
+*For example, your `application.properties` should look like this:*
+
+```yaml
+# This helps us identify microservices
+spring.application.name=configserver
+
+# tell spring cloud that we're reading from a git repository
+spring.profiles.active=git
+
+# From GitHub repository
+spring.cloud.config.server.git.uri=https://github.com/sophiagavrila/credit-microservices-config.git
+
+# The port where our config server app will run
+server.port=8071
+```
 
