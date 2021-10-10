@@ -172,7 +172,7 @@ server.port=8071
 
 <br>
 
-## Update Microservices to Read Properties from Config Server
+# Update Microservices to Read Properties from Config Server
 
 1. Go to `accounts` services' `pom.xml` > under the `<properties>` tag add the Spring CLoud version (which is copied from your `configserver`'s spring cloud version)
 
@@ -186,6 +186,10 @@ server.port=8071
 ```
 
 <br>
+
+1b. Add `Cloud Config Client` as a dependency to the `pom.xml`.
+
+<br>  
 
 2. Create the dependency tags below the `</dependency>` tag in the bottom like so (aslo copied from `configserver`):
 
@@ -315,7 +319,7 @@ public class AccountsController {
 
 #### *Follow the same steps for `loans` and `cards` services*
 
-- Add Spring Cloud Config verion to pom.xml
+- Add Spring Cloud Config version to pom.xml
   
 - Add DependecniesManagement to pom.xml
   
@@ -329,4 +333,3 @@ public class AccountsController {
 
 <br>
 
-:tada:
