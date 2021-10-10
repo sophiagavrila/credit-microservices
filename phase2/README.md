@@ -204,19 +204,62 @@ docker push sophiagavrila/cards
 
 <br>
 
+<br>
+
 ## Intro to Docker Compose
 So far we have manually started each of the containers one by one, for all three services.  As applications scale, this gets harder to manage manually. That's where Docker Compose comes in; with a single command, it allows multiple containers to start. Docker Compose is a tool that is used to manage all containers via one command and a `docker-compose.yml` file.  By default, we have Docker Compose installed in our local system by way of downloading Docker Desktop (to check run, `docker-compose --version`)
 
 
+1. We will run the `accounts` service first out of all the microservices, so it will house our `docker-compose.yml` file.  Right click on the `accounts` project and create a new file called `docker-compose.yml` > paste the following code into it:
 
 
+<br>
 
+```yml
+# This is the version of Docker Compose we're using https://docs.docker.com/compose/compose-file/
+version: "3.8"
 
+# This is a command will queue the following containers to run
+services:
 
-5. First make sure you are logged in on Docker Desktop.  If not, go ahead and make a free account.
+  # Accounts is the first service we want to run
+  accounts:
+    # This is the public dockerhub repository name of the image to run a container from
+    image: sophiagavrila/accounts:latest
+    # Limiting accounts service to using only 700mb
+    mem_limit: 700m
+    # Exposing port 8080 to the host machine, connecting to 8080 within the container
+    ports:
+      - "8080:8080"
+    networks:
+      # specifying the common network shared among services mentioned at the bottom
+      - bank-network
+    
+  loans:
+    image: sophiagavrila/loans:latest
+    mem_limit: 700m
+    ports:
+      - "8090:8090"
+    networks:
+      - bank-network
+    
+  cards:
+    image: sophiagavrila/cards:latest
+    mem_limit: 700m
+    ports:
+      - "9000:9000"
+    networks:
+      - bank-network
+# Network is a root element which can be declared like services    
+networks:
+  bank-network:
+```
 
-6. To push your code, run `docker images` to determine which image you'd like to push.
+<br>
 
-7. Run: `docker push docker.io /your-image-name` - *for example:* `docker push docker.io/sophia/accounts`
+2. `cd` into your `accounts` app root directory and run: `docker compose up`.
+    > This will begin all of your services within their respective containers at once.
 
-8. 
+    > If you run `docker compose up -d` instead, you will be able to interact with the terminal.
+
+3. Run `docker compose stop` to terminate all the containers that are running.
