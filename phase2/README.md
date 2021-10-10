@@ -35,7 +35,29 @@ If we were deploy each of our services (loans, cards, and accounts) the traditio
 **What is Docker?**
 > Docker is one of the tools that used the idea of the isolated resources to create a set of tools that allows applications to be packaged with all the dependencies installed and ran wherever wanted.
 
+<br>
 
+# Dockerize the Exisiting Services
+We will generate a `Dockerfile` for each existing service.  Spring Documentation has great articles like [this](https://spring.io/guides/topicals/spring-boot-docker/) on how to Dockerize a Spring Boot applcation, but you can go ahead and follow the steps below.
+
+1. Right click on the root directory of your `applications` app > create a new file named `Dockerfile` and paste the following within it:
+
+<br>
+
+```Dockerfile
+# Start with a base image containing Java runtime
+FROM openjdk:8-jdk-alpine
+
+# Information about who maintains the image
+MAINTAINER Sophia Gavrila
+
+# Add the application's JAR to the container
+COPY target/accounts-0.0.1-SNAPSHOT.jar accounts-0.0.1-SNAPSHOT.jar
+
+# Execute the application
+ENTRYPOINT ["java", "-jar", "/accounts-0.0.1-SNAPSHOT.jar"]
+```
+ 
 
 
 
