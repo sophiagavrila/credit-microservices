@@ -90,17 +90,18 @@ public class ConfigserverApplication {
 
 <br>
 
-
 ## Thre are multiple ways to provide `configserver` with properties:
+
+<br>
 <br>
 
-1. **Native Approach:** Read the properties from a classpath location
+### 1. **Native Approach:** Read the properties from a classpath location
 
-   - In this repo, go to `configserver` > `src/main/resources/config` > you will see all applicationproperties stored in `application.properties` files for each service and a specific environemnt (dev, test, prod) >  They're located [here](https://github.com/sophiagavrila/credit-microservices/tree/main/phase3/configserver/src/main/resources/config)
+- In this repo, go to `configserver` > `src/main/resources/config` > you will see all applicationproperties stored in `application.properties` files for each service and a specific environemnt (dev, test, prod) >  They're located [here](https://github.com/sophiagavrila/credit-microservices/tree/main/phase3/configserver/src/main/resources/config)
 
-   - Right click on `configserver/src/main/resources` and create a `config` folder to put these.
+- Right click on `configserver/src/main/resources` and create a `config` folder to put these.
 
-   - The master `accounts.properties` (within `src/main/resources`) should contain the following properties:
+- The master `accounts.properties` (within `src/main/resources`) should contain the following properties:
 
 > *In order to tell your `configserver` which properties file to read from , you must configurea that in your master `application.properties` file within `src/main/resources`. Within it, paste the following:
 
@@ -128,7 +129,7 @@ server.port=8071
 <br>
 <br>
 
-2. **Read from File System Approach:**
+### 2. **Read from File System Approach:**
 *You may not want to push all of your config properties to GitHub as a part of your application.  Instead you can store the configuration properties in a filesystem on the server that your `configserver` is being, or within a cloud storage like AWS S3 bucket.*
 
 - Save your `config` folder to somewhere in your disk like: `C://config`
@@ -138,7 +139,7 @@ server.port=8071
 <br>
 <br>
 
-3.  :exclamation:**Read from GitHub Repository Approach:** *Standard Approach*
+### 3. :exclamation: **Read from GitHub Repository Approach:** *Standard Approach*
 
 - Create a repository on github containing all of the `.properties` files within your `config` folder like [this](https://github.com/sophiagavrila/credit-microservices-config)
 
@@ -253,7 +254,7 @@ public class AccountsServiceConfig {
 <br>
 
 5. **Add *`@AutoWired`* `AccountsServiceConfig` and  `getPropertyDetails()` method to `accounts` Controller**
-Your `com.revature.accounts.controller.AccountsController.java` should now look like this: 
+> Your `com.revature.accounts.controller.AccountsController.java` should now look like this: 
 
 <br>
 
