@@ -95,7 +95,7 @@ public class ConfigserverApplication {
 <br>
 <br>
 
-### 1. **Native Approach:** Read the properties from a classpath location
+### :one: **Native Approach:** Read the properties from a classpath location
 
 - In this repo, go to `configserver` > `src/main/resources/config` > you will see all applicationproperties stored in `application.properties` files for each service and a specific environemnt (dev, test, prod) >  They're located [here](https://github.com/sophiagavrila/credit-microservices/tree/main/phase3/configserver/src/main/resources/config)
 
@@ -129,7 +129,7 @@ server.port=8071
 <br>
 <br>
 
-### 2. **Read from File System Approach:**
+### :two: **Read from File System Approach:**
 *You may not want to push all of your config properties to GitHub as a part of your application.  Instead you can store the configuration properties in a filesystem on the server that your `configserver` is being, or within a cloud storage like AWS S3 bucket.*
 
 - Save your `config` folder to somewhere in your disk like: `C://config`
@@ -139,7 +139,7 @@ server.port=8071
 <br>
 <br>
 
-### 3. :exclamation: **Read from GitHub Repository Approach:** *Standard Approach*
+### :three: :star: **Read from GitHub Repository Approach:** *Standard Approach*
 
 - Create a repository on github containing all of the `.properties` files within your `config` folder like [this](https://github.com/sophiagavrila/credit-microservices-config)
 
