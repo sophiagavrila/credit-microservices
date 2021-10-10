@@ -203,4 +203,98 @@ server.port=8071
 
 <br>
 
+3. Go to `accounts` `application.properties` file and tell the app where it can fetch properties from Config Server by adding tho following properties:
 
+<br>
+
+```yaml
+# Pointing to the name of service you're configuring
+spring.application.name=accounts
+# Select the environment profile
+spring.profiles.active=prod
+# Fetch from the configserver service running on port 8071
+spring.config.import=optional:configserver:http://localhost:8071
+# optional: indicates that is config server is down, you should still start up accounts service
+```
+
+<br>
+
+4. **Add the `AccountsServiceConfig` class:** Write the code to load all properties from config location
+
+   - In `accounts`, create a new package & class: `com.revature.accounts.config.AccountsServiceConfig` 
+   - Within it, write the following code:
+
+<br>
+
+```java
+/**
+ * @ConfigurationProperties reads all properties that begin with "accounts"
+ */
+@Configuration
+@ConfigurationProperties(prefix = "accounts")
+@Getter @Setter @ToString
+public class AccountsServiceConfig {
+
+	/**
+	 * Store all properties fetches in an object
+	 */
+	private String msg;
+	private String buildVersion;
+	private Map<String, String> mailDetails;
+	private List<String> activeBranches;
+
+}
+```
+
+<br>
+
+*The `@ConfigurationProperties` annotation will prompt you to add `spring-boot-configuration-processor` to your `pom.xml`. Add it.*
+
+<br>
+
+5. **Add *`@AutoWired`* `AccountsServiceConfig` and  `getPropertyDetails()` method to `accounts` Controller**
+Your `com.revature.accounts.controller.AccountsController.java` should now look like this: 
+
+<br>
+
+```java
+@RestController
+public class AccountsController {
+
+	@Autowired
+	private AccountsRepository accountsRepository;
+
+	@Autowired
+	AccountsServiceConfig accountsConfig;
+
+	/**
+	 * Passes customer object as parameter in HTTP Request body and returns Account
+	 * object based on account found by that cusomter's ID.
+	 */
+	@PostMapping("/myAccount")
+	public Accounts getAccountDetails(@RequestBody Customer customer) {
+		Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
+		if (accounts != null) {
+			return accounts;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * This method will return all properties configured for this service from the
+	 * auto-wired AccountsServiceConfig in JSON format to the client.
+	 */
+	@GetMapping("/account/properties")
+	public String getPropertyDetails() throws JsonProcessingException {
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		Properties properties = new Properties(accountsConfig.getMsg(), accountsConfig.getBuildVersion(),
+				accountsConfig.getMailDetails(), accountsConfig.getActiveBranches());
+		String jsonStr = ow.writeValueAsString(properties);
+		return jsonStr;
+	}
+}
+```
+
+
+</br>
