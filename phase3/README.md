@@ -92,10 +92,52 @@ public class ConfigserverApplication {
 
 
 ## Thre are multiple ways to provide `configserver` with properties:
+<br>
 
-1. **Read the properties from a classpath location**
+1. **Native Approach:** Read the properties from a classpath location
 
-   - In this repo, go to `configserver` > `src/main/resources/config` > you will see all applicationproperties stored in `application.properties` files for each service and a specific environemnt (dev, test, prod) > copy thiese into your app. 
+   - In this repo, go to `configserver` > `src/main/resources/config` > you will see all applicationproperties stored in `application.properties` files for each service and a specific environemnt (dev, test, prod) >  They're located [here](https://github.com/sophiagavrila/credit-microservices/tree/main/phase3/configserver/src/main/resources/config)
 
    - Right click on `configserver/src/main/resources` and create a `config` folder to put these.
+
+   - The master `accounts.properties` (within `src/main/resources`) should contain the following properties:
+
+> *In order to tell your `configserver` which properties file to read from , you must configurea that in your master `application.properties` file within `src/main/resources`. Within it, paste the following:
+
+<br>
+
+```yaml
+# This helps us identify microservices
+spring.application.name=configserver
+
+# native tells configserver that we're reading from file system inside of classpath
+spring.profiles.active=native
+
+# Expose to the app where the configurations are located in the app
+spring.cloud.config.server.native.search-locations=classpath:/config
+
+# The port where our config server app will run
+server.port=8071
+```
+
+<br>
+
+- Run the application and in your browser navigate to `http://localhost:8071/accounts/default` > You will see all of the default config properties, just as you would if you tried a different environemnt setting like `http://localhost:8071/accounts/dev`
+    > *You can format this text for better readability at [Json Pretty Print](https://jsonformatter.org/json-pretty-print)*
+
+<br>
+<br>
+
+2. **Read from File System Approach:**
+*You may not want to push all of your config properties to GitHub as a part of your application.  Instead you can store the configuration properties in a filesystem on the server that your `configserver` is being, or within a cloud storage like AWS S3 bucket.*
+
+- Save your `config` folder to somewhere in your disk like: `C://config`
+- In your `application.properties`, comment out the previouse location and add this search location: `#spring.cloud.config.server.native.search-locations=file:///C://config`
+
+<br>
+<br>
+
+3. **Read from GitHub Repository Approach:**
+
+- Create a repository on github containing all of the `.properties` files within your `config` folder.
 
