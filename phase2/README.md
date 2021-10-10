@@ -136,6 +136,8 @@ A **buildpack** is a program that turns source code into a runnable container im
 
 1. Open the `pom.xml` file of `loans` > under the `</dependencies>` tag, add the following `<image>` tag and its nested elements within the `build` tag. *If the maven plugin and lombok tag isnt' there, add them in as well)*
 
+<br>
+
 ```xml
 	<build>
 		<plugins>
@@ -157,3 +159,64 @@ A **buildpack** is a program that turns source code into a runnable container im
 		</plugins>
 	</build>
 ```
+
+<br>
+
+2. Right click on the `loans` app root directory and run: `mvn spring-boot:build-image`.
+   > Docker will try to pull the images that correspond to out dependencies and code.
+
+3. If you run `docker images` you'll see that your image has been created!  Now you can run it: `docker run -d -p 8090:8090 sophia/loans`.
+
+4. Generate a Dockerfile for `cards` as well > paste the same `<image>` tag into the `pom.xml` file into `cards` as you did for `loans` > run `mvn spring-boot:build-image`
+
+<br>
+
+## Pushing and Pulling from Dockerhub
+Dockerhub is a place for you to push up or pull down custom images - it's like GitHub for Docker Images.  This is useful if you need to share your code and replicate its deployment environment, like if you were to ship your software to a testing team, that team could pull down the custom image generated for your software.
+
+1. Log into hub.docker.com - create an account if you haven't already.
+
+2. Go to Repositories > Click *Create repository*.
+
+3. After your username, you have the option to name it *ie* `loans` -> [username]/loans > make it public > click Create.
+
+4. Go back to your terminal > run `docker login` > enter your info
+
+5. Rename your image to match the name of your repository: run `docker tag <old-image-name> username/loans`
+
+*For example:*
+
+```
+docker tag sophia/loans sophiagavrila/loans
+```
+
+6. Push it to your remote repository: run `docker push username/loans`
+
+Now go back to hub.docker.com and you'll see your newly created repository. Similarly, you can pull images with `docker pull`.
+
+7. Push both your `cards` and `accounts` images.  You can also push images by renaming (tagging) them to your repository name `/` image tag like so:
+
+```
+docker image tag sophia/cards sophiagavrila/cards
+
+docker push sophiagavrila/cards
+```
+
+<br>
+
+## Intro to Docker Compose
+So far we have manually started each of the containers one by one, for all three services.  As applications scale, this gets harder to manage manually. That's where Docker Compose comes in; with a single command, it allows multiple containers to start. Docker Compose is a tool that is used to manage all containers via one command and a `docker-compose.yml` file.  By default, we have Docker Compose installed in our local system by way of downloading Docker Desktop (to check run, `docker-compose --version`)
+
+
+
+
+
+
+
+5. First make sure you are logged in on Docker Desktop.  If not, go ahead and make a free account.
+
+6. To push your code, run `docker images` to determine which image you'd like to push.
+
+7. Run: `docker push docker.io /your-image-name` - *for example:* `docker push docker.io/sophia/accounts`
+
+8. 
