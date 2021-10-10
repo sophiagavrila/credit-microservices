@@ -170,6 +170,8 @@ spring.cloud.config.server.git.default-label=main
 server.port=8071
 ```
 
+<br>
+
 ## Update Microservices to Read Properties from Config Server
 
 1. Go to `accounts` services' `pom.xml` > under the `<properties>` tag add the Spring CLoud version (which is copied from your `configserver`'s spring cloud version)
@@ -298,5 +300,21 @@ public class AccountsController {
 }
 ```
 
-
 </br>
+
+
+## 6. Star the applications and test that `accounts` has fetched the properties from `configserver`
+
+- Run `configserver` first.
+
+- Then run `accounts`.
+
+- Navigate to `http://localhost:8080/account/properties` and view the properties details returned from `configserver`!
+
+<br>
+
+#### *Follow the same steps for `loans` and `cards` services*
+
+<br>
+
+:tada:
