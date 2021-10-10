@@ -1,6 +1,8 @@
 # Credit Microservices
 A Spring Boot based microservices application deployed on AWS cloud, containerized and orchestrated with Docker &amp; Kubernetes. Simulated to model the appropriate deconstruction of a banking credit/loan accounting monolith.
 
+**Microservices architecture** breaks apps down into their smallest components, independent from eachother.
+
 <br>
 
 ## How To Use This Guide:

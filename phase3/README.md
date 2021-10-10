@@ -1,5 +1,5 @@
 # Phase 3: Configuration Management with CLoud Config
-As outlined in the 12 Factors of Cloud-Native Apps, environment-specifc configuration *must* be stored independently from your code.  Never add embedded configurations to your souce code; instead, maintain your configuration completely separated from your deployable microservice.  If we keep the configuration packaged within the microservice, we'll need to redeploy each of the hundred instanced to make the change.
+As outlined in the [12 Factors of Cloud-Native Apps](https://12factor.net/), environment-specifc configuration *must* be stored independently from your code.  Never add embedded configurations to your souce code; instead, maintain your configuration completely separated from your deployable microservice.  If we keep the configuration packaged within the microservice, we'll need to redeploy each of the hundred instanced to make the change.
 
 Configuration Management within Microservices poses 3 questions:
 
