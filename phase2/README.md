@@ -99,6 +99,9 @@ Deploying this application is now exceptionally easy and we can increase the num
 
 ### More Docker Commands
 
+<br>
+
+
 |     Docker Command       |     Description          |
 | ------------- | ------------- |
 | "docker build . -t eazybytes/accounts" | To generate a docker image based on a Dockerfile |
@@ -123,3 +126,34 @@ Deploying this application is now exceptionally easy and we can increase the num
 | "docker container prune" | To remove all stopped containers |
 | "docker compose up" | To create and start containers based on given docker compose file |
 | "docker compose stop" | To stop services |
+
+<br>
+
+## Using Buildpacks to Generate Dockerfile for Loans Microservice
+Generating hundreds of Dockerfiles can become tedious, and takes a lot of expertise. Fortunately there is a way to automate this process called **Buildpacks**.
+
+A **buildpack** is a program that turns source code into a runnable container image. Usually, buildpacks encapsulate a single language ecosystem toolchain. There are buildpacks for Ruby, Go, NodeJs, Java, Python, and more. Read more about Dockerfiles vs. Buildpacks [here](https://technology.doximity.com/articles/buildpacks-vs-dockerfiles).
+
+1. Open the `pom.xml` file of `loans` > under the `</dependencies>` tag, add the following `<image>` tag and its nested elements within the `build` tag. *If the maven plugin and lombok tag isnt' there, add them in as well)*
+
+```xml
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>sophia/${project.artifactId}</name>
+					</image>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+```
