@@ -94,5 +94,8 @@ public class ConfigserverApplication {
 ## Thre are multiple ways to provide `configserver` with properties:
 
 1. **Read the properties from a classpath location**
+
    - In this repo, go to `configserver` > `src/main/resources/config` > you will see all applicationproperties stored in `application.properties` files for each service and a specific environemnt (dev, test, prod) > copy thiese into your app. 
+
+   - Right click on `configserver/src/main/resources` and create a `config` folder to put these.
 
