@@ -42,3 +42,57 @@ We will create a Spring Boot application will act as a Config Server where it wi
 3. Add the following dependencies:
    - **Config Server** 
         > ***Config Client*** *is the dependency that will be added to each individual service that fetches from our `configserver`**.
+   - **Spring Boot Actuator**
+
+4. Add the **Buildpack** `<image>` tag to `configserver`'s `pom.xml`, below `</dependencyManagement>` like so:
+
+<br>
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <image>
+                    <name>sophia/${project.artifactId}</name>
+                </image>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+<br>
+
+6. Go to the main Spring Boot applicaiton class `com.revature.configserver.ConfigserverApplication.java` and apply the `@EnableConfigServer` annotation over the `ConfigserverApplication` class like so:
+
+<br>
+
+```java
+/**
+ * @EnableConfigServer makes this application a ConfigServer which will read
+ *                     configuration properties from a centralized repository
+ *                     and expose them as REST end-points to your other
+ *                     microservices that have the ConfigClient dependency.
+ */
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigserverApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ConfigserverApplication.class, args);
+	}
+
+}
+```
+
+<br>
+
+
+#### Thre are multiple ways to provide `configserver` with properties:
+
+1. **Read the properties from a classpath location**
+   - In this repo, go to `configserver` > `src/main/resources/config` > you will see all applicationproperties stored in `application.properties` files for each service and a specific environemnt (dev, test, prod) > copy thiese into your app. 
+
