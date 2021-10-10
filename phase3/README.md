@@ -315,6 +315,18 @@ public class AccountsController {
 
 #### *Follow the same steps for `loans` and `cards` services*
 
+- Add Spring Cloud Config verion to pom.xml
+  
+- Add DependecniesManagement to pom.xml
+  
+- Add Cloud Config Client dependency
+  
+- Add Config impor tproperties to application.properies
+  
+- Add ____ServiceConfig Class
+  
+- Autowire ___ServiceConfig to ____Controller, addget____Properties() method
+
 <br>
 
 :tada:
