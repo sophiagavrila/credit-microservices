@@ -139,5 +139,5 @@ server.port=8071
 
 3. **Read from GitHub Repository Approach:**
 
-- Create a repository on github containing all of the `.properties` files within your `config` folder.
+- Create a repository on github containing all of the `.properties` files within your `config` folder like [this](https://github.com/sophiagavrila/credit-microservices-config)
 
