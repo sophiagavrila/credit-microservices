@@ -57,7 +57,22 @@ COPY target/accounts-0.0.1-SNAPSHOT.jar accounts-0.0.1-SNAPSHOT.jar
 # Execute the application
 ENTRYPOINT ["java", "-jar", "/accounts-0.0.1-SNAPSHOT.jar"]
 ```
- 
+
+<br>
+
+> :exclamation: *Before we build an image make sure that you have Docker Desktop downloaded.  Then click on its executable icon and make sure the Docker engine is running on your computer before continuing.*
+
+2. First build the JAR file with maven so Docker can copy it into the container. In the root directory of your project open a terminal and run `mvn clean install`. This will generate `accounts-0.0.1-SNAPSHOT` in the `target/` directory of your project.
+
+3. To build an **image** from the Dockerfile within the `accounts` application, open a terminal in the root of the project and run:
+
+<br>
+
+```
+docker build . -t sophia/accounts
+```
+
+<br>
 
 
 
