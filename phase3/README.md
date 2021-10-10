@@ -93,7 +93,6 @@ public class ConfigserverApplication {
 ## Thre are multiple ways to provide `configserver` with properties:
 
 <br>
-<br>
 
 ### :one: **Native Approach:** Read the properties from a classpath location
 
@@ -127,6 +126,7 @@ server.port=8071
     > *You can format this text for better readability at [Json Pretty Print](https://jsonformatter.org/json-pretty-print)*
 
 <br>
+<hr>
 <br>
 
 ### :two: **Read from File System Approach:**
@@ -137,6 +137,7 @@ server.port=8071
 - In your `application.properties`, comment out the previouse location and add this search location: `#spring.cloud.config.server.native.search-locations=file:///C://config`
 
 <br>
+<hr>
 <br>
 
 ### :three: :star: **Read from GitHub Repository Approach:** *Standard Approach*
