@@ -12,7 +12,7 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 - [**Phase 2: How to Build, Deploy, and Scale Microservices using Docker**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase2) :whale:
 
-- [**Phase 3: Configuration Management with Spring Cloud Config**(https://github.com/sophiagavrila/credit-microservices/tree/main/phase3) :key:
+- [**Phase 3: Configuration Management with Spring Cloud Config**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase3) :key:
 
 - **Phase 4: Service Discovery & Registration with Eureka and Feign Client** :phone:
 
