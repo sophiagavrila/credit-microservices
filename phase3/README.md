@@ -351,10 +351,18 @@ public class AccountsController {
 
 <br>
 
-## Update Docker Compose File to adapt Config Server changes
+## 9. Update Docker Compose File to adapt Config Server changes
 
-- Inside `acocounts` root directory, create a new folder called `docker-compose`
+- Inside `accounts` root directory, create a new folder called `docker-compose`
 
 - Inside of `docker-compose`, create 3 folders: `default`, `dev`, `prod` > create a `docker-compose.yml` file within each one Here we can control all containers based on the type of environment they're running in.
 
-- Go [here]() and copy the contents into each folder's respective `docker-compose.yml` file
+- Go [here](https://github.com/sophiagavrila/credit-microservices/tree/main/phase3/accounts/docker-compose) and copy the contents into each folder's respective `docker-compose.yml` file
+
+- `cd` into `accounts/docker-compose/default` and run the command `docker compose up` -> this will start all of the containers in the default environment.  Note that some of the containers will restart due to the delay properties set in the docker-compose file.
+
+- Test that everything is up and working by navigating to `localhost:9000/cards/properties` and you will see that it has received the default properties from config server.
+
+<br>
+
+*Finished* :tada:
