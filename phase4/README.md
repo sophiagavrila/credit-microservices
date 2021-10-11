@@ -1,0 +1,2 @@
+# Phase 4: Service Discovery & Registration with Eureka and Feign Client
+Service Discovery & Registration deals with solving the problems that can occur when Microservices talk to eachotehr, i.e **perform API calls**.
