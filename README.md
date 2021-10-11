@@ -8,7 +8,7 @@ A Spring Boot based microservices application deployed on AWS cloud, containeriz
 ## How To Use This Guide:
 This guide is broken into several modules for learning Microservices, Telemetry, Docker & Kubernetes:
 
-- [**Phase 1: Understanding the Spring Boot Services**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase1) :brain:
+- [**Phase 1: Understanding the Cloned Spring Boot Microservices**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase1) :brain:
 
 - [**Phase 2: How to Build, Deploy, and Scale Microservices using Docker**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase2) :whale:
 
