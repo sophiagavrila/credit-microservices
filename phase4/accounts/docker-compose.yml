@@ -1,0 +1,38 @@
+# This is the version of Docker Compose we're using https://docs.docker.com/compose/compose-file/
+# Spaces ONLY, no tabs!
+version: "3.8"
+
+# This is a command will queue the following containers to run
+services:
+
+  # Accounts is the first service we want to run
+  accounts:
+    # This is the public dockerhub repository name of the image to run a container from
+    image: sophiagavrila/accounts
+    # Limiting accounts service to using only 700mb
+    mem_limit: 700m
+    # Exposing port 8080 to the host machine, connecting to 8080 within the container
+    ports:
+      - "8080:8080"
+    networks:
+      # specifying the common network shared among services mentioned at the bottom
+      - bank
+    
+  loans:
+    image: sophiagavrila/loans
+    mem_limit: 700m
+    ports:
+      - "8090:8090"
+    networks:
+      - bank
+    
+  cards:
+    image: sophiagavrila/cards
+    mem_limit: 700m
+    ports:
+      - "9000:9000"
+    networks:
+      - bank
+# Network is a root element which can be declared like services    
+networks:
+  bank:
