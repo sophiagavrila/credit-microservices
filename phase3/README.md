@@ -307,7 +307,7 @@ public class AccountsController {
 </br>
 
 
-## 6. Star the applications and test that `accounts` has fetched the properties from `configserver`
+## 6. Start the applications and test that `accounts` has fetched the properties from `configserver`
 
 - Run `configserver` first.
 
@@ -325,7 +325,7 @@ public class AccountsController {
   
 - Add Cloud Config Client dependency
   
-- Add Config impor tproperties to application.properies
+- Add Config import properties to application.properties
   
 - Add ____ServiceConfig Class
   
@@ -333,3 +333,28 @@ public class AccountsController {
 
 <br>
 
+## 7. Generate Docker Images for All Services after Config Server Changes
+
+- In `configserver`'s root directory, run `mvn spring-boot:build-image` to build the Docker image
+
+- Open your terminal in `accounts` > run `mvn clean install` > Now that the new JAR is available, run `docker build . -t <your-name>/accounts` > this will generate a new image, overwriting the previous one tagged `:latest` > that one will have the tag `:<none>`
+
+- Delete the image with the `<none>` tag with `docker rmi <first-3-digits-of-image-id>` *for example* `docker rmi 93c`
+
+- Create the Docker images with the Maven command and delete their older versions for `loans` and `cards` - (*add `-f` at the end of the docker command if you need to force removal*)
+
+<br>
+
+## 8. Push all latest Docker Images to Docker Hub
+
+- Run the following command for all 4 images: `docker push <image-name>` - *for example* `docker push sophiagavrila/accounts`
+
+<br>
+
+## Update Docker Compose File to adapt Config Server changes
+
+- Inside `acocounts` root directory, create a new folder called `docker-compose`
+
+- Inside of `docker-compose`, create 3 folders: `default`, `dev`, `prod` > create a `docker-compose.yml` file within each one Here we can control all containers based on the type of environment they're running in.
+
+- Go [here]() and copy the contents into each folder's respective `docker-compose.yml` file
