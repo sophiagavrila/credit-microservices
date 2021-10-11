@@ -40,7 +40,7 @@ If we were deploy each of our services (loans, cards, and accounts) the traditio
 # Dockerize the Exisiting Services
 We will generate a `Dockerfile` for each existing service.  Spring Documentation has great articles like [this](https://spring.io/guides/topicals/spring-boot-docker/) on how to Dockerize a Spring Boot applcation, but you can go ahead and follow the steps below.
 
-1. Right click on the root directory of your `applications` app > create a new file named `Dockerfile` and paste the following within it:
+1. Right click on the root directory of your `accounts` app > create a new file named `Dockerfile` and paste the following within it:
 
 <br>
 
