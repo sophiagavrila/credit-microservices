@@ -53,7 +53,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>sophia/${project.artifactId}</name>
+						<name>sophiagavrila/${project.artifactId}</name>
 					</image>
 				</configuration>
 			</plugin>
