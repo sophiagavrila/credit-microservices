@@ -124,7 +124,7 @@ spring.cloud.loadbalancer.ribbon.enabled=false
 
 <br>
 
-## Make changes to the microsservices to connect to Eureka
+## Register the Microservices to Eureka
 Each microservice can register itself to Eureka service discovery and send a heartbeat.
 
 1. Start with `accounts` > open `pom.xml` and add the following dependencies:
