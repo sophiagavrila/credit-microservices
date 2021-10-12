@@ -3,6 +3,8 @@ A Spring Boot based microservices application deployed on AWS cloud, containeriz
 
 **Microservices architecture** breaks apps down into their smallest components, independent from eachother.
 
+> *Any phases below that aren't hyperlinked will be complete by 10/14*
+
 <br>
 
 ## Topics Covered
