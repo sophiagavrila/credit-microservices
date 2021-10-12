@@ -17,4 +17,22 @@ Spring uses **Resilience4j Framework**.  Resilience4j is a lightweight, easy-to-
     - **Rate limit** - Limits the number of calls that a service receives in a time.
     - **Bulkhead** - Limits the number of outgoing concurrent requests to a service to avoid overloading.
 
-*Before Resilience4j., everyone used to use **Hystrix**...but now Hystrix is in maintenence mode, so people use Resilience4j which has more features.*
+*Before Resilience4j, everyone used to use **Hystrix**...but now Hystrix is in maintenence mode, so people use Resilience4j which has more features.*
+
+<br>
+
+## Circuit Breaker Pattern
+In a distributed environemnt, calls to remote resources and services can fail due to transient faults, such as slow network connections, timeouts, or the resources being overcommited or temporarily unavailable.  These faults typically correct themselves after a short period of time, and a robust cloud application should be prepared to handle them.
+
+The **Circuit Breaker Pattern**, which is inspired from the electrical circuit breakers, will monitor the remote calls.  If the calls take too long, the circuit breaker will intercede and kill the call.  Also, the circuit breaker will monitor all calls to a remote resource, and if enough calls cail, the circuit brek implementation will pop, failing fast and preventing calls to the failing remote resource.
+
+The advantages of the circuit breaker pattern are:
+- *Fail fast* :check:
+- *Fail gracefully* :check:
+- *Recover seamlessly* :check:
+
+<br>
+
+# Implementing Circuit Breaker Pattern
+
+
