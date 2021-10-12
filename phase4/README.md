@@ -124,7 +124,7 @@ spring.cloud.loadbalancer.ribbon.enabled=false
 
 <br>
 
-## Make changes to the services to connect to Eureka
+## Make changes to the microsservices to connect to Eureka
 Each microservice can register itself to Eureka service discovery and send a heartbeat.
 
 1. Start with `accounts` > open `pom.xml` and add the following dependencies:
@@ -160,7 +160,155 @@ management.endpoint.shutdown.enabled=true
 
 3. Start the `configserver`, then `eurkekaserver`, thehn `accounts` > Go to `localhost:8080/acutator/info` and you will see the properties that you have set as `info` endpoints in `accounts` `application.properties`.
 
-4. Go to `localhost:8070`
+4. Go to `localhost:8070` > you should see your account instnace is up!
 
+5. *Do the same for `cards` and `loans` microservices.*
 
+    - Add **Eureka Discovery Client** (not OpenFeign) dependency to pom.xml
+    - Add acutator end points + eureka config info to `application.properties`
+  
+6. run config > eureka > all microservices. Additioanlly you can navigate to `localhost:8070/eureka/apps/__(service)__` to view info about that instance
+    > Additionally you can change hte request header to Accepts "application/json" in potman
 
+7. Similarly, you can **Deregister** instances by calling it's port + actuator + shutdown + `llocalhost:9000/actuator/shutdown`
+
+<br>
+
+## Send Heartbeats from Sevice to `Eurekaserver`
+Run all apps, kill the eureka server (you will see that all microservicers are trying to send a heartbeat every 30 seconds but are unable to find an ative Discovery service.)
+
+<br>
+
+## Use Feign Client to invoke other Microservices
+This is how microservices use Eureka data and Netlfix Open Feign Client to communicate with other microservices.  You must follow client-side load balacning if possible. Feign Client allows microservices to talk with eachother without knowing exact location details of eachother.
+
+*We will build a new API path inside `accounts` which will be exposed to UI application. This `myCustomerDetails` path will provide a single view of all cards, loans, and accounts. It will use Open Feign Client to invoke cards and loans*.
+
+1. **Open Feign** dependency is only in `accounts` app because it will be invoking info from the other services
+
+2. Insert `@EnableFeignClients` annotation ontop of `AccountsApplication` class:
+
+<br>
+
+```java
+@SpringBootApplication
+@EnableFeignClients
+public class AccountsApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(AccountsApplication.class, args);
+	}
+
+}
+```
+
+<br>
+
+3. In `accoutns` create a new package called `com.revature.accounts.service.client` > Here we will make 2 classes: `CardsFeignClient` & `LoansFeignClient`. These are interfaces
+    > We use these to invoke `cards` & `loans` busines logic within `accounts`:
+
+<br>
+
+`CardsFeignClient.java`
+
+```java
+/**
+ * This interface allows accounts to invoke a controller
+ * method within the cards microservice.
+ */
+@FeignClient("cards") // use the application name that's registered in Eureka Server
+public interface CardsFeignClient {
+
+	// Indicate the path that you want to invoke (within cards' controller)
+	@RequestMapping(method = RequestMethod.POST, value = "myCards", consumes = "application/json") 
+	List<Cards> getCardDetails(@RequestBody Customer customer); // pass a customer obj, extract id, retrieve cards details
+}
+
+```
+
+<br>
+
+LoansFeignCLient.java
+
+```java
+@FeignClient("loans")
+public interface LoansFeignClient {
+
+	@RequestMapping(method = RequestMethod.POST, value = "myLoans", consumes = "application/json")
+	List<Loans> getLoansDetails(@RequestBody Customer customer);
+}
+```
+
+<br>
+
+4. Go to accounts controller. Autowire both `FeignClient` interfaces to the controller.
+
+5. Write a method that exposes an API path called `myCUstomerDetails` which passes a CUstomer as the Request Body and invokes both `cards` and `loans` client to return information. Your `AccountsController` should now look like this:
+
+<br>
+
+```java
+@RestController
+public class AccountsController {
+
+	@Autowired
+	private AccountsRepository accountsRepository;
+
+	@Autowired
+	AccountsServiceConfig accountsConfig;
+
+	@Autowired
+	LoansFeignClient loansFeignClient;
+
+	@Autowired
+	CardsFeignClient cardsFeignClient;
+
+	/**
+	 * Passes customer object as parameter in HTTP Request body and returns Account
+	 * object based on account found by that cusomter's ID.
+	 */
+	@PostMapping("/myAccount")
+	public Accounts getAccountDetails(@RequestBody Customer customer) {
+
+		Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
+		if (accounts != null) {
+			return accounts;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * This method will return all properties configured for this service from the
+	 * auto-wired AccountsServiceConfig in JSON format to the client.
+	 */
+	@GetMapping("/account/properties")
+	public String getPropertyDetails() throws JsonProcessingException {
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		Properties properties = new Properties(accountsConfig.getMsg(), accountsConfig.getBuildVersion(),
+				accountsConfig.getMailDetails(), accountsConfig.getActiveBranches());
+		String jsonStr = ow.writeValueAsString(properties);
+		return jsonStr;
+	}
+	
+	/**
+	 * Passes Customer object as localhost:8080/myCustomerDetails.
+	 * Customer obj is passed as method to both cards and loans controllers
+	 * by using FeignClient to invoke other microservices and return details.
+	 */
+	@PostMapping("/myCustomerDetails")
+	public CustomerDetails myCustomerDetails(@RequestBody Customer customer) {
+		
+		Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
+		List<Loans> loans = loansFeignClient.getLoansDetails(customer);
+		List<Cards> cards = cardsFeignClient.getCardDetails(customer);
+
+		CustomerDetails customerDetails = new CustomerDetails();
+		customerDetails.setAccounts(accounts);
+		customerDetails.setLoans(loans);
+		customerDetails.setCards(cards);
+
+		return customerDetails;
+	}
+}
+```
