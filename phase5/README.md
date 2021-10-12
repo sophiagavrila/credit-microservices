@@ -110,7 +110,57 @@ resilience4j.circuitbreaker.instances.detailsForCustomerSupportApp.permittedNumb
 
 <br>
 
+## Start all services but simulate a scenario in which `cards` is not running
 
+1. start config > eureka > accounts > loans ... but no cards
+
+2. Confirm on eureka dashboard > open acutuator endpoint `localhost:8080/acutator` > you will see that `localhost:8080/actuator/circuitbreakers` is available to us and shows us information about the circuit breaker. Note: circuitBreakerEvents is empty.
+
+<br>
+
+```json
+    "circuitbreakers-name": {
+        "href": "http://localhost:8080/actuator/circuitbreakers/{name}",
+        "templated": true
+    },
+    "circuitbreakers": {
+        "href": "http://localhost:8080/actuator/circuitbreakers",
+        "templated": false
+    },
+    "circuitbreakerevents": {
+        "href": "http://localhost:8080/actuator/circuitbreakerevents",
+        "templated": false
+    }
+```
+
+<br>
+
+*You will see that `http://localhost:8080/actuator/circuitbreakerevents` has no values.*
+
+3. Send a post Request to `localhost:880/myCustomerDetails` 5 times >  then re-open `http://localhost:8080/actuator/circuitbreakerevents`.  You will see in the console: `io.github.resilience4j.circuitbreaker.CallNotPermittedException: CircuitBreaker 'detailsForCustomerSupportApp' is OPEN and does not permit further calls` and if you go back to `http://localhost:8080/actuator/circuitbreakerevents` you will see:
+
+<br>
+
+```json
+{
+    "circuitBreakerName": "detailsForCustomerSupportApp",
+    "type": "FAILURE_RATE_EXCEEDED",
+    "creationTime": "2021-10-12T09:27:41.643-04:00[America/New_York]",
+    "errorMessage": null,
+    "durationInMs": null,
+    "stateTransition": null
+}
+```
+
+<br>
+
+*The circuit breaker will prevent any other requests to the API.  This is because the Circuit Breaker is OPEN and will not allow any other requests to go through.  It will allow you to try 3, but after it discovers that `cards` service is unresponsive, it prohibits any more calls.* *This is a scenario in which opur cirtuit breaker is **failing fast***.
+
+*Now we want to adjust this circuit breaker so that we get at least `accounts` and `loans` information, even if we have to set `cards` details to null.  This is called a **Fallback Mechanism***.
+
+<br>
+
+## Implementing a Fallback Mechanism
 
 
 
