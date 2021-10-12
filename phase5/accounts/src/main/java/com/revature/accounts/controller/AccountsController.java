@@ -73,7 +73,7 @@ public class AccountsController {
 	 * by using FeignClient to invoke other microservices and return details.
 	 */
 	@PostMapping("/myCustomerDetails")
-	@CircuitBreaker(name = "detailsForCustomerSupportApp")
+	@CircuitBreaker(name = "detailsForCustomerSupportApp", fallbackMethod ="myCustomerDetailsFallBack")
 	public CustomerDetails myCustomerDetails(@RequestBody Customer customer) {
 		
 		Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
@@ -87,5 +87,47 @@ public class AccountsController {
 
 		return customerDetails;
 	}
+	
+	/**
+	 * This method will accept the same request object as the above method.
+	 * It will return both populated details for accounts and loans, but
+	 * null values for cards in the case that service is down and Circuit Breaker
+	 * has opened the circuit.
+	 * 
+	 * Throwable is helpful because the method is invoked due to an exception.
+	 * (The FallBack method will not work without it).
+	 */
+	private CustomerDetails myCustomerDetailsFallBack(Customer customer, Throwable t) {
+		Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
+		List<Loans> loans = loansFeignClient.getLoansDetails(customer);
+		
+		CustomerDetails customerDetails = new CustomerDetails();
+		customerDetails.setAccounts(accounts);
+		customerDetails.setLoans(loans);
+		
+		return customerDetails;
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
