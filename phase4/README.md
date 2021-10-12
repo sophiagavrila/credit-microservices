@@ -460,3 +460,60 @@ networks:
 <br>
 
 4. Do the same to `dev` and `prod` docker-compose files.
+
+<br>
+
+## Start All Instances with Docker Compose
+
+1. Open a terminal in `accounts/docker-compose/default` > run: `docker compose up -d`
+
+2. You can also navigate to `localhost:8070` to check eureka's registry of instances
+
+3. Send a POST request in Postman to `localhot:8080/myCustomerDetails` to confirm Feign Client.
+
+<br>
+
+## Running Dcoker Compose with 2 Instances of `accounts`
+
+1. Add one more accounts serve, append a 1 to it's name, add 12s delay for eureka, add 30s delay for accounts 1
+
+2.  and change the port exposed to your local system in `docker-compose.yml` (start with `default`) and replicate this in all env settings.
+
+Add this under the first acccount service:
+
+<br>
+
+```yaml
+  accounts:
+    image: sophiagavrila/accounts
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - bank
+    # Docker Compose will ensure that config is started first 
+    depends_on:
+      - configserver
+      - eurekaserver
+    # Deploy configurations delays accounts before it makes requests to configserver 
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    # Here we are overriding application.properties of the service    
+    environment:
+       SPRING_PROFILES_ACTIVE: default
+       # Make sure we connect to configserver even if it is not on localhost
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       # Tell docker where Eureka is so it can register it
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+```
+
+<br>
+
+3. Run `docker compose up` > go to `localhost:8070` to view the 2 Accounts instances on Erueka
+
+4. *You will notice that your system is significant;y slower - you can go ahead and revert all the changes in your `docker-compose.yml` file so we're only running one instance.*
+
