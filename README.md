@@ -16,7 +16,7 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 - [**Phase 4: Service Discovery & Registration with Eureka and Feign Client**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase4) :phone:
 
-- **Phase 5: Making Microservices Resilient with Circuit Breakers** :muscle:
+- [**Phase 5: Making Microservices Resilient with Circuit Breakers**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase5) :muscle:
 
 - **Phase 6: Routing & Cross Cutting Concerns with Spring Cloud Gateway** :scissors:
 
