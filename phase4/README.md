@@ -147,7 +147,7 @@ eureka.client.serviceUrl.defaultZone = http://localhost:8070/eureka/
 
 ## Configuring info endpoint for actuator
 info.app.name=Accounts Microservice
-info.app.description=Eazy Bank Accounts Application
+info.app.description=Bank Accounts Application
 info.app.version=1.0.0
 
 # Enable the service to shutdown gracefully
