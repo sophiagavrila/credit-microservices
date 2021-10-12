@@ -128,8 +128,8 @@ spring.cloud.loadbalancer.ribbon.enabled=false
 Each microservice can register itself to Eureka service discovery and send a heartbeat.
 
 1. Start with `accounts` > open `pom.xml` and add the following dependencies:
-    - Eureka Discovery Client
-    - OpenFeign
+    - **Eureka Discovery Client**
+    - **OpenFeign**
 
 2. Go to `application.properties` and add the properties to connect with `eurekaserver`:
 
@@ -156,6 +156,11 @@ endpoints.shutdown.enabled=true
 management.endpoint.shutdown.enabled=true
 ```
 
+<br>
+
+3. Start the `configserver`, then `eurkekaserver`, thehn `accounts` > Go to `localhost:8080/acutator/info` and you will see the properties that you have set as `info` endpoints in `accounts` `application.properties`.
+
+4. Go to `localhost:8070`
 
 
 
