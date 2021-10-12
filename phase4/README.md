@@ -312,3 +312,151 @@ public class AccountsController {
 	}
 }
 ```
+
+<br>
+
+*It is the responsibility of Eureka Server to find the `loans` and `cards` > It will get instance detials of loans and cards when we send the first request and cache locally.  It will also do load balancing through Spring Cloud LoadBalancing*
+
+5. Start configserver > eurekaserver > accounts > cards > loans. With Postman, make a POST request to `localhost:8080/myCustomerDetails` with `{"customerId" : 1}` as the Request Body >  this will return all details.
+
+<br>
+
+## Generate Docker *Images* to Reflect Changes made
+
+1. Go to root folder where all services are present > open terminal. We have to generate a Dockerfile for `accounts` the old way. Open a terminal within `accounts`
+
+2. First we need an `accounts` JAR file. Tell maven you're not unit testing. Run: `mvn clean install -Dmaven.test.skip=true`
+
+3. Run: `docker build . -t sophiagavrila/accounts`.
+
+4. Do the same for `cards` and `loans`: `cd` into `cards` and run `mvn spring-boot:build-image -Dmaven.test.skip=true` > do the same in `loans/`.
+
+5. `configserver` is up to date > we just need to generate a docker image for `eurekaserver` > run: `mvn spring-boot:build-image -Dmaven.test.skip=true`
+
+6. Run `docker images` and do some cleanup to remove old images (`docker rmi <image-id> -f`)
+
+<br>
+
+## Push Latest Docker IMages to DockerHub
+
+1. Push all images with `docker push sophiagavrila/accounts` (repeat for all 4 images - not configserver)
+
+<br>
+
+## Integrate EurekaServer into Docker Compose File
+
+1. Create a `eurekaserivce` service under `configserver`.
+2. In the `accounts` service section, add `eurekaserver` as a dependency, and add it's environemnt variable.
+3. Add `EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/` to all services declared in domcpose file.
+
+`docker-compose.yml` should look like this:
+
+<br>
+
+```yaml
+version: "3.8"
+
+services:
+
+  configserver:
+    image: sophiagavrila/configserver:latest
+    mem_limit: 700m
+    ports:
+      - "8071:8071"
+    networks:
+     - bank
+     
+  eurekaserver:
+    image: sophiagavrila/eurekaserver:latest
+    mem_limit: 700m
+    ports:
+      - "8070:8070"
+    networks:
+     - bank
+    depends_on:
+      - configserver
+    # Incase config server is not started, set a restart policy and try again
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      # Tells docker where the config server location is that we can connect
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+  accounts:
+    image: sophiagavrila/accounts
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - bank
+    # Docker Compose will ensure that config is started first 
+    depends_on:
+      - configserver
+      - eurekaserver
+    # Deploy configurations delays accounts before it makes requests to configserver 
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    # Here we are overriding application.properties of the service    
+    environment:
+       SPRING_PROFILES_ACTIVE: default
+       # Make sure we connect to configserver even if it is not on localhost
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       # Tell docker where Eureka is so it can register it
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    
+  loans:
+    image: sophiagavrila/loans
+    mem_limit: 700m
+    ports:
+      - "8090:8090"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+       SPRING_PROFILES_ACTIVE: default
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    
+  cards:
+    image: sophiagavrila/cards
+    mem_limit: 700m
+    ports:
+      - "9000:9000"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+       SPRING_PROFILES_ACTIVE: default
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/  
+      
+networks:
+  bank:
+```
+
+<br>
+
+4. Do the same to `dev` and `prod` docker-compose files.
