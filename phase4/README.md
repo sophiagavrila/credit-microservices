@@ -21,8 +21,8 @@ Spring Cloud makes Service Discovery & Registry easy with the help of the below 
 
 - **Netflix Feign client** to look up services between microservices.
 
-> * *We user Eureka because it's widely used, but there are other popular service registries such as **Consul**, **Apache Zookeeper**, and **etcd*** <br>
-> ** *Netflix Ribbon used to be the go-to fo load balacning, but it is currentl;y in maintenance mode, so we will use Spring Cloud Load Balancer*.
+> * *We use Eureka because it's widely used, but there are other popular service registries such as **Consul**, **Apache Zookeeper**, and **etcd*** <br>
+> ** *Netflix Ribbon used to be the go-to fo load balacning, but it is currently in maintenence mode, so we will use Spring Cloud Load Balancer*.
 
 <br>
 
@@ -31,9 +31,9 @@ Spring Cloud makes Service Discovery & Registry easy with the help of the below 
 1. Generate a new Spring Starter Project in the same IDE as your other services > name it `eurekaserver` > group: `com.revature` > package: `com.revature.eurekaserver`
 
 2.  Add these dependencies:
-  - Spring Boot Actuator
-  - Eureka Server
-  - Spring Cloud Config Client
+  - **Spring Boot Actuator**
+  - **Eureka Server**
+  - **Spring Cloud Config Client**
 
 3. Modify the `pom.xml` to exclude Netflx Ribbon.  Add the `<exclusions>` featured below within the Spring Cloud Eureka Server dependency:
 
@@ -168,14 +168,14 @@ management.endpoint.shutdown.enabled=true
     - Add acutator end points + eureka config info to `application.properties`
   
 6. run config > eureka > all microservices. Additioanlly you can navigate to `localhost:8070/eureka/apps/__(service)__` to view info about that instance
-    > Additionally you can change hte request header to Accepts "application/json" in potman
+    > Additionally you can change the request header to `Accepts = "application/json"` in Postman.
 
-7. Similarly, you can **Deregister** instances by calling it's port + actuator + shutdown + `llocalhost:9000/actuator/shutdown`
+7. Similarly, you can **deregister** instances by calling it's port + actuator + shutdown + `localhost:9000/actuator/shutdown`
 
 <br>
 
 ## Send Heartbeats from Sevice to `Eurekaserver`
-Run all apps, kill the eureka server (you will see that all microservices are trying to send a heartbeat every 30 seconds but are unable to find an active Discovery service.)
+Run all apps, kill the eureka server (you will see that all microservices are trying to send a heartbeat every 30 seconds but are unable to find an active Discovery service).
 
 <br>
 
