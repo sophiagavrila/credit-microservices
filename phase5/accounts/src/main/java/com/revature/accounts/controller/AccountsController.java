@@ -22,6 +22,8 @@ import com.revature.accounts.repository.AccountsRepository;
 import com.revature.accounts.service.client.CardsFeignClient;
 import com.revature.accounts.service.client.LoansFeignClient;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @RestController
 public class AccountsController {
 
@@ -71,6 +73,7 @@ public class AccountsController {
 	 * by using FeignClient to invoke other microservices and return details.
 	 */
 	@PostMapping("/myCustomerDetails")
+	@CircuitBreaker(name = "detailsForCustomerSupportApp")
 	public CustomerDetails myCustomerDetails(@RequestBody Customer customer) {
 		
 		Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
