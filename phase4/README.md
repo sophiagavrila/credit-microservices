@@ -106,5 +106,56 @@ public class EurekaserverApplication {
 <br>
 
 ```yaml
-# TBA
+# Properties necessary for Config Server
+# This is the name used to identify this service in configserver
+spring.application.name=eurekaserver
+spring.config.import=optional:configserver:http://localhost:8071
+
+# Add this to confirm that we are not using Ribbon which is deprecated
+spring.cloud.loadbalancer.ribbon.enabled=false
 ```
+
+<br>
+
+7. Add the `eurekaserver` proeprties to the Config Server Git Repository [here](https://github.com/sophiagavrila/credit-microservices-config/tree/main)
+
+8. Test it! Start the `configserver` first, then start `eurekaserver` > Go to `http://localhost:8070/` (fwded port from config)
+> *You will see a dashboard of all instances of a service that's up (none right now)*
+
+<br>
+
+## Make changes to the services to connect to Eureka
+Each microservice can register itself to Eureka service discovery and send a heartbeat.
+
+1. Start with `accounts` > open `pom.xml` and add the following dependencies:
+    - Eureka Discovery Client
+    - OpenFeign
+
+2. Go to `application.properties` and add the properties to connect with `eurekaserver`:
+
+<br>
+
+```yaml
+# In the case that the IP address for this container changes
+eureka.instance.preferIpAddress = true 
+# Go ahead and register with Eureka
+eureka.client.registerWithEureka = true
+# Fetch all registry details
+eureka.client.fetchRegistry = true
+eureka.client.serviceUrl.defaultZone = http://localhost:8070/eureka/
+
+
+## Configuring info endpoint for actuator
+info.app.name=Accounts Microservice
+info.app.description=Eazy Bank Accounts Application
+info.app.version=1.0.0
+
+# Enable the service to shutdown gracefully
+# Expose this endpoint to acutator
+endpoints.shutdown.enabled=true
+management.endpoint.shutdown.enabled=true
+```
+
+
+
+
