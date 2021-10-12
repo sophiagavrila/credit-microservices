@@ -117,7 +117,7 @@ spring.cloud.loadbalancer.ribbon.enabled=false
 
 <br>
 
-7. Add the `eurekaserver` proeprties to the Config Server Git Repository [here](https://github.com/sophiagavrila/credit-microservices-config/tree/main)
+7. Add the `eurekaserver` proeprties to the Config Server Git Repository [here](https://github.com/sophiagavrila/credit-microservices-config/tree/main) ~ *or you can just call my git repository as your config repo*
 
 8. Test it! Start the `configserver` first, then start `eurekaserver` > Go to `http://localhost:8070/` (fwded port from config)
 > *You will see a dashboard of all instances of a service that's up (none right now)*
@@ -175,12 +175,12 @@ management.endpoint.shutdown.enabled=true
 <br>
 
 ## Send Heartbeats from Sevice to `Eurekaserver`
-Run all apps, kill the eureka server (you will see that all microservicers are trying to send a heartbeat every 30 seconds but are unable to find an ative Discovery service.)
+Run all apps, kill the eureka server (you will see that all microservices are trying to send a heartbeat every 30 seconds but are unable to find an active Discovery service.)
 
 <br>
 
 ## Use Feign Client to invoke other Microservices
-This is how microservices use Eureka data and Netlfix Open Feign Client to communicate with other microservices.  You must follow client-side load balacning if possible. Feign Client allows microservices to talk with eachother without knowing exact location details of eachother.
+This is how microservices use Eureka data and Netflix Open Feign Client to communicate with other microservices.  You must follow client-side load balancing if possible. Feign Client allows microservices to talk with eachother without knowing exact location details of eachother.
 
 *We will build a new API path inside `accounts` which will be exposed to UI application. This `myCustomerDetails` path will provide a single view of all cards, loans, and accounts. It will use Open Feign Client to invoke cards and loans*.
 
@@ -243,7 +243,7 @@ public interface LoansFeignClient {
 
 4. Go to accounts controller. Autowire both `FeignClient` interfaces to the controller.
 
-5. Write a method that exposes an API path called `myCUstomerDetails` which passes a CUstomer as the Request Body and invokes both `cards` and `loans` client to return information. Your `AccountsController` should now look like this:
+5. Write a method that exposes an API path called `/myCustomerDetails` which passes a Customer as the Request Body and invokes both `cards` and `loans` client to return information. Your `AccountsController` should now look like this:
 
 <br>
 
@@ -315,7 +315,7 @@ public class AccountsController {
 
 <br>
 
-*It is the responsibility of Eureka Server to find the `loans` and `cards` > It will get instance detials of loans and cards when we send the first request and cache locally.  It will also do load balancing through Spring Cloud LoadBalancing*
+*It is the responsibility of Eureka Server to find the `loans` and `cards` services > It will get instance details of `loans` and `cards` when we send the first request and cache locally.  It will also do load balancing through Spring Cloud LoadBalancing*
 
 5. Start configserver > eurekaserver > accounts > cards > loans. With Postman, make a POST request to `localhost:8080/myCustomerDetails` with `{"customerId" : 1}` as the Request Body >  this will return all details.
 
@@ -329,15 +329,15 @@ public class AccountsController {
 
 3. Run: `docker build . -t sophiagavrila/accounts`.
 
-4. Do the same for `cards` and `loans`: `cd` into `cards` and run `mvn spring-boot:build-image -Dmaven.test.skip=true` > do the same in `loans/`.
+4. Generate one for `cards` and `loans`, but faster: `cd` into `cards` and run `mvn spring-boot:build-image -Dmaven.test.skip=true` > do the same in `loans`.
 
-5. `configserver` is up to date > we just need to generate a docker image for `eurekaserver` > run: `mvn spring-boot:build-image -Dmaven.test.skip=true`
+5. `configserver` is up to date > we just need to generate a Docker image for `eurekaserver` > run: `mvn spring-boot:build-image -Dmaven.test.skip=true`
 
 6. Run `docker images` and do some cleanup to remove old images (`docker rmi <image-id> -f`)
 
 <br>
 
-## Push Latest Docker IMages to DockerHub
+## Push Latest Docker Images to DockerHub
 
 1. Push all images with `docker push sophiagavrila/accounts` (repeat for all 4 images - not configserver)
 
@@ -346,8 +346,10 @@ public class AccountsController {
 ## Integrate EurekaServer into Docker Compose File
 
 1. Create a `eurekaserivce` service under `configserver`.
-2. In the `accounts` service section, add `eurekaserver` as a dependency, and add it's environemnt variable.
-3. Add `EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/` to all services declared in domcpose file.
+   
+2. In the `accounts` service section, add `eurekaserver` as a dependency, and add it's environment variable.
+
+3. Add `EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/` to all services declared in coker compose file.
 
 `docker-compose.yml` should look like this:
 
@@ -473,7 +475,7 @@ networks:
 
 <br>
 
-## Running Dcoker Compose with 2 Instances of `accounts`
+## BONUS: Running Docker Compose with 2 Instances of `accounts`
 
 1. Add one more accounts serve, append a 1 to it's name, add 12s delay for eureka, add 30s delay for accounts 1
 
@@ -513,7 +515,7 @@ Add this under the first acccount service:
 
 <br>
 
-3. Run `docker compose up` > go to `localhost:8070` to view the 2 Accounts instances on Erueka
+3. Run `docker compose up` > go to `localhost:8070` to view the 2 Accounts instances on Eureka
 
 4. *You will notice that your system is significant;y slower - you can go ahead and revert all the changes in your `docker-compose.yml` file so we're only running one instance.*
 
