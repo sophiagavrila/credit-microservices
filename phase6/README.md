@@ -430,7 +430,159 @@ public class ResponseTraceFilter {
 8. To test these prefilters, run `configserver` > `eurekaserver` > `cards` > `gatewayserver` > and send a POST request (with `{ "customerId" : 1 }`) to `http://localhost:8072/bank/cards/myCards` and you should see in the response header that a trace ID was generated.
 
 *Here we have implemented a simple Cross Cutting Concern: tracing a request with an id, but with the power of Spring Cloud Gateway, you can implement any other type of logic you want in the form of pre-filters and post-filters.  You can see the [Spring Cloud Gateway documentation](https://cloud.spring.io/spring-cloud-gateway/reference/html/#configuring-route-predicate-factories-and-gateway-filter-factories) for more resources* 
+
 <br>
 
 ## Generate and Push Docker Images with Spring Cloud Gateway Changes
 
+1. `cd` into `accounts` > since we're still generating images for `accounts` the old-fashioned way due to the Dockerfile, first generate a new jar and skip tests with `mvn clean install -Dmaven.test.skip=true`
+
+2. Build the image with `docker build . -t yourUsername/accounts`
+
+3. For `cards`, `cd` into the root directory and build the image (and skips tests) with `mvn spring-boot:build-image -Dmaven.test.skip=true`
+
+4. repeat the same above step for `loans` and `gatewayserver`.
+
+> *You shouldn't have to *generate a new docker image for `configserver` or `eurekaserver` because we haven't made any changes.*
+
+5. Delete all the old images (all images with a tag value of `<none>`)
+
+6. Push up all 4 freshly made images to docker hub with `docker push your-username/image-name`
+
+<br>
+
+## Update your `docker-compose.yml` to Include Gateway Server
+
+1. Navigate into `accounts/docker-compose/default` > open `docker-compose.yaml` > add the `gatewayserver` service to the bottom of the services queue.  Your new docker compose file should look like this:
+
+<br>
+
+```yaml
+version: "3.8"
+
+services:
+
+  configserver:
+    image: sophiagavrila/configserver:latest
+    mem_limit: 700m
+    ports:
+      - "8071:8071"
+    networks:
+     - bank
+     
+  eurekaserver:
+    image: sophiagavrila/eurekaserver:latest
+    mem_limit: 700m
+    ports:
+      - "8070:8070"
+    networks:
+     - bank
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+  accounts:
+    image: sophiagavrila/accounts
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+      - eurekaserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+       SPRING_PROFILES_ACTIVE: default
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    
+  loans:
+    image: sophiagavrila/loans
+    mem_limit: 700m
+    ports:
+      - "8090:8090"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+       SPRING_PROFILES_ACTIVE: default
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    
+  cards:
+    image: sophiagavrila/cards
+    mem_limit: 700m
+    ports:
+      - "9000:9000"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+       SPRING_PROFILES_ACTIVE: default
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/  
+  
+  # Add Gateway Server to service queue
+  gatewayserver:
+    image: sophiagavrila/gatewayserver:latest
+    mem_limit: 700m
+    ports:
+      - "8072:8072"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+      - eurekaserver
+      - cards
+      - loans
+      - accounts
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 45s
+        max_attempts: 3
+        window: 180s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      
+networks:
+  bank:
+```
+   
+<br>
+
+2. Within the same directory (`accounts/docker-compose/default`), run `docker compose up -d` to start all containers in detached mode.
+
+3. You should be able to see all instances running within eureka (`localhost:8070`).  If you send a POST request through Postman to `localhost:8072/bank/accounts/myCustomerDetails` you should be able to retrieve all information + a Response heading encoding the correlation id which we've used as a request tracer.
+
+4. You can also view the logs of your gateway server container by opening a separate terminal and running `docker logs <container-id>`
