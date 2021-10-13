@@ -1,4 +1,4 @@
-Phase 6: Routing & Cross Cutting Concerns with Spring Cloud Gateway
+# Phase 6: Routing & Cross Cutting Concerns with Spring Cloud Gateway
 Spring Cloud Gateway is a library for building an API gateway, so it looks like any other Spring Boot application.  If you're a Spring developer, you'll find it's very easy to get started with Spring Cloud Gateway with just a few lines of code.
 
 **Spring Cloud Gateway** is intended to sit between a requester and a resource that's being requested, where it intercepts, analuzes, and modifies every request.  That means you can route requests based on their context.  Did a request include a header indicating an API version?  We can route that request to the appropriately versioned backend.  Does the reuqest require sticky sessions?  The gateway can keep track of each user's session.
