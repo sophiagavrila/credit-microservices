@@ -20,7 +20,7 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 - [**Phase 5: Making Microservices Resilient with Circuit Breakers**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase5) :muscle:
 
-- **Phase 6: Routing & Cross Cutting Concerns with Spring Cloud Gateway** :scissors:
+- [**Phase 6: Routing & Cross Cutting Concerns with Spring Cloud Gateway**]((https://github.com/sophiagavrila/credit-microservices/tree/main/phase6)) :scissors:
 
 - **Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ** :incoming_envelope:
 

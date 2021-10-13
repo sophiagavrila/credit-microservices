@@ -11,14 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.revature.accounts.model.Cards;
 import com.revature.accounts.model.Customer;
 
-/**
- * This interface allows accounts to invoke a controller
- * method within the cards microservice.
- */
-@FeignClient("cards") // use the application name that's registered in Eureka Server
+@FeignClient("cards")
 public interface CardsFeignClient {
 
-	// Indicate the path that you want to invoke (within cards' controller)
 	@RequestMapping(method = RequestMethod.POST, value = "myCards", consumes = "application/json") 
-	List<Cards> getCardDetails(@RequestBody Customer customer); // pass a customer obj, extract id, retrieve cards details
+	List<Cards> getCardDetails(@RequestHeader("bank-correlation-id") String correlationid, @RequestBody Customer customer);
 }
