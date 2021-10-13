@@ -65,15 +65,18 @@ logging.level.com.eaztbytes.gatewayserver: DEBUG
 ```
 <br>
 
-6. Run configserver, eureka, accounts, gatewayserver > navigate to `http://localhost:8070` to view the 2 instances running of Eureka dashboard. **With Gateway Server we are able to incoke services without knowing their location/IP*.  In the browser, go to `http://localhost:8072/actuator` (these are the endpoints for `gatewayserver`) > search for `gateway {}`.  Grab the URL and append `/routes` like so: `http://localhost:8072/actuator/gateway/routes`
+6. Run configserver, eureka, accounts, gatewayserver > navigate to `http://localhost:8070` to view the 2 instances running of Eureka dashboard. 
+> *With Gateway Server we are able to invoke services without knowing their location/IP*.  
 
-*You will see that Gateway Server has automatically integrated with Eureka Server and has all of the information about where the other microservices are*.  *You should see `accounts` information.  Gateway Server can use this informatino to re-route requests.*
+6a. In the browser, go to `http://localhost:8072/actuator` (these are the endpoints for `gatewayserver`) > search for `gateway {}`.  Grab the URL and append `/routes` like so: `http://localhost:8072/actuator/gateway/routes`
+
+> *You will see that Gateway Server has automatically integrated with Eureka Server and has all of the information about where the other microservices are*.  *You should see `accounts` information.  Gateway Server can use this informatino to re-route requests.*
 
 <br>
 
-7. Open postman, send a POST request with the body as `{ "customerId" : 1 }` to `http://localhost:8072/ACCOUNTS/myAccount` > Gateway interacted with eureka and understood that that was directed to `accounts` > the `accounts` microservice was invoked and returned a response.
+1. Open postman, send a POST request with the body as `{ "customerId" : 1 }` to `http://localhost:8072/ACCOUNTS/myAccount` > Gateway interacted with eureka and understood that that was directed to `accounts` > the `accounts` microservice was invoked and returned a response.
 
-8. Notice you had to send that request to a URL including letters IN ALL CAPS.  TO change this add the following line to `gatewayserver`'s `application.properties` to allow lowercase letters in the URL to route to the service that is expected to deliver the response.
+2. Notice you had to send that request to a URL including letters IN ALL CAPS.  TO change this add the following line to `gatewayserver`'s `application.properties` to allow lowercase letters in the URL to route to the service that is expected to deliver the response.
 
 <br>
 
