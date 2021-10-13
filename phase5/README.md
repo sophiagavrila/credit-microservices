@@ -22,9 +22,9 @@ Spring uses **Resilience4j Framework**.  Resilience4j is a lightweight, easy-to-
 <br>
 
 ## Circuit Breaker Pattern
-In a distributed environemnt, calls to remote resources and services can fail due to transient faults, such as slow network connections, timeouts, or the resources being overcommited or temporarily unavailable.  These faults typically correct themselves after a short period of time, and a robust cloud application should be prepared to handle them.
+In a distributed environment, calls to remote resources and services can fail due to transient faults, such as slow network connections, timeouts, or the resources being overcommited or temporarily unavailable.  These faults typically correct themselves after a short period of time, and a robust cloud application should be prepared to handle them.
 
-The **Circuit Breaker Pattern**, which is inspired from the electrical circuit breakers, will monitor the remote calls.  If the calls take too long, the circuit breaker will intercede and kill the call.  Also, the circuit breaker will monitor all calls to a remote resource, and if enough calls cail, the circuit brek implementation will pop, failing fast and preventing calls to the failing remote resource.
+The **Circuit Breaker Pattern**, which is inspired from the electrical circuit breakers, will monitor the remote calls.  If the calls take too long, the circuit breaker will intercede and kill the call.  Also, the circuit breaker will monitor all calls to a remote resource, and if enough calls fail, the circuit brek implementation will pop, failing fast and preventing calls to the failing remote resource.
 
 The advantages of the circuit breaker pattern are:
 - *Fail fast* :check:
@@ -154,7 +154,7 @@ resilience4j.circuitbreaker.instances.detailsForCustomerSupportApp.permittedNumb
 
 <br>
 
-*The circuit breaker will prevent any other requests to the API.  This is because the Circuit Breaker is OPEN and will not allow any other requests to go through.  It will allow you to try 3, but after it discovers that `cards` service is unresponsive, it prohibits any more calls.* *This is a scenario in which opur cirtuit breaker is **failing fast***.
+*The circuit breaker will prevent any other requests to the API.  This is because the Circuit Breaker is OPEN and will not allow any other requests to go through.  It will allow you to try 3, but after it discovers that `cards` service is unresponsive, it prohibits any more calls.* *This is a scenario in which out circuit breaker is **failing fast***.
 
 *Now we want to adjust this circuit breaker so that we get at least `accounts` and `loans` information, even if we have to set `cards` details to null.  This is called a **Fallback Mechanism***.
 
