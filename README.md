@@ -24,7 +24,9 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 - **Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ** :incoming_envelope:
 
-- **Phase 8: Automatic Self-Healing, Scaling & Deployments with Kubernetes** :octopus:
+- **Phase 8: Monitoring Metrics & Health with Prometheus and Grafana** :heartpulse:
+
+- **Phase 9: Automatic Self-Healing, Scaling & Deployments with Kubernetes** :octopus:
 
 <br>
 
