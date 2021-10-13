@@ -78,9 +78,9 @@ logging.level.com.eaztbytes.gatewayserver: DEBUG
 
 <br>
 
-1. Open postman, send a POST request with the body as `{ "customerId" : 1 }` to `http://localhost:8072/ACCOUNTS/myAccount` > Gateway interacted with eureka and understood that that was directed to `accounts` > the `accounts` microservice was invoked and returned a response.
+7. Open postman, send a POST request with the body as `{ "customerId" : 1 }` to `http://localhost:8072/ACCOUNTS/myAccount` > Gateway interacted with eureka and understood that that was directed to `accounts` > the `accounts` microservice was invoked and returned a response.
 
-2. Notice you had to send that request to a URL including letters IN ALL CAPS.  TO change this add the following line to `gatewayserver`'s `application.properties` to allow lowercase letters in the URL to route to the service that is expected to deliver the response.
+8. Notice you had to send that request to a URL including letters IN ALL CAPS.  TO change this add the following line to `gatewayserver`'s `application.properties` to allow lowercase letters in the URL to route to the service that is expected to deliver the response.
 
 <br>
 
