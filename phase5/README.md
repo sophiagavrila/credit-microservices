@@ -202,5 +202,60 @@ resilience4j.circuitbreaker.instances.detailsForCustomerSupportApp.permittedNumb
 
 *You will notice on the **third** try, the circuit breaker has opened the fallback mechanism and returned all `accounts` and `loans` objects associates with that customerId, but null values for cards.*
 
+<br>
+
+## Implement Rate Limiter Pattern
+The rate limiter pattern will help to stop overloading the service with more calles more than it can consume in a given time.  This is an imperative techniqu to prepare our API for high availability and reliability.
+
+- This pattern protects API's and service endpoint from harmful effects, such as [denial of service attack (DDoS)](https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/) or cascading failure.
+
+- We configure the following values for the Rate Limiter Patter: 
+  - `timeoutDiration` - The default wait time a thread waits for a permission
+  - `limitForPeriod` - The number of permissions available during one refresh period.
+  - `limitRefreshPeriod` - The period of a limit refresh. After each period, the rate limiter sets its permissions count back to the `limitForPeriod` value.
+
+- You can also define a fallback mechanism if the service call fails due to rate limiter configurations.  Below is a sample configuration:
+
+<br>
+
+```java
+@RateLimiter(name="detailsForCustomerSupportApp", fallbackMethod="myCustomerDetailsFallBack")
+```
+
+<br>
+
+1. In `AccountsController` of `accounts`, create the 2 following methods:
+
+```java
+	/**
+	 * @RateLimiter corresponds to the throttling threshold we set in
+	 *              application.properties. Throttling is the process of limiting
+	 *              the rate that an API is being used in a server.
+	 */
+	@GetMapping("/sayHello")
+	@RateLimiter(name = "sayHello", fallbackMethod = "sayHelloFallback")
+	public String sayHello() {
+		return "Hello, Welcome to the Bank";
+	}
+
+	private String sayHelloFallback(Throwable t) {
+		return "This is a RateLimiter Fallback!";
+	}
+```
+
+<br>
+
+2. Test this by running `config` > `eureka` > `accounts` and navigating to `localhost:8080/sayHello`.  Spam the refresh button and you'll notice that after multiple requests, you'll have triggered the Rate Limiter and the fallback method will be returned to you.
+
+<br>
+
+*Have you ever tried to log into the same Netflix account, but 5 of your fmaily members are already on it?*  *This could be because of the Rate Limiter pattern.*
+*Rate Limiters are used to restrict the amount of concurrency allowed, i.e., the number of concurrent requests a client is allowed to make.  For example, under a free billing plan, clients could only be limited to just a single concurrent request.*
+
+<br>
+
+*Additionally, Rate Limiters are used to restrict the over all requests made to a microservice. For example if your microservice can handle a maximum of 1000 requests per second, some hacker could try to bringing it down by throttling it with more 10K requests. So in this scenario we can leverage Rate limiter to limit the API to receiving 1000 requests only per second.*
+
+
 
 
