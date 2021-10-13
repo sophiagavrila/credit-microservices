@@ -68,7 +68,11 @@ logging.level.com.eaztbytes.gatewayserver: DEBUG
 6. Run configserver, eureka, accounts, gatewayserver > navigate to `http://localhost:8070` to view the 2 instances running of Eureka dashboard. 
 > *With Gateway Server we are able to invoke services without knowing their location/IP*.  
 
+<br>
+
 6a. In the browser, go to `http://localhost:8072/actuator` (these are the endpoints for `gatewayserver`) > search for `gateway {}`.  Grab the URL and append `/routes` like so: `http://localhost:8072/actuator/gateway/routes`
+
+<br>
 
 > *You will see that Gateway Server has automatically integrated with Eureka Server and has all of the information about where the other microservices are*.  *You should see `accounts` information.  Gateway Server can use this informatino to re-route requests.*
 
