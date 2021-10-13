@@ -562,6 +562,10 @@ The rate limiter pattern will help to stop overloading the service with more cal
 
 <br>
 
+2. Test this by running `config` > `eureka` > `accounts` and navigating to `localhost:8080/sayHello`.  Spam the refresh button and you'll notice that after multiple requests, you'll have triggered the Rate Limiter and the fallback method will be returned to you.
+
+<br>
+
 *Have you ever tried to log into the same Netflix account, but 5 of your fmaily members are already on it?*  *This could be because of the Rate Limiter pattern.*
 *Rate Limiters are used to restrict the amount of concurrency allowed, i.e., the number of concurrent requests a client is allowed to make.  For example, under a free billing plan, clients could only be limited to just a single concurrent request.*
 
