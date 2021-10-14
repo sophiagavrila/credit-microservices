@@ -1,0 +1,101 @@
+version: "3.8"
+
+services:
+
+  configserver:
+    image: sophiagavrila/configserver:latest
+    mem_limit: 700m
+    ports:
+      - "8071:8071"
+    networks:
+     - bank
+     
+  eurekaserver:
+    image: sophiagavrila/eurekaserver:latest
+    mem_limit: 700m
+    ports:
+      - "8070:8070"
+    networks:
+     - bank
+    depends_on:
+      - configserver
+    # Incase config server is not started, set a restart policy and try again
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      # Tells docker where the config server location is that we can connect
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+  accounts:
+    image: sophiagavrila/accounts
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - bank
+    # Docker Compose will ensure that config is started first 
+    depends_on:
+      - configserver
+      - eurekaserver
+    # Deploy configurations delays accounts before it makes requests to configserver 
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    # Here we are overriding application.properties of the service    
+    environment:
+       SPRING_PROFILES_ACTIVE: prod
+       # Make sure we connect to configserver even if it is not on localhost
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       # Tell docker where Eureka is so it can register it
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    
+  loans:
+    image: sophiagavrila/loans
+    mem_limit: 700m
+    ports:
+      - "8090:8090"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+       SPRING_PROFILES_ACTIVE: prod
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    
+  cards:
+    image: sophiagavrila/cards
+    mem_limit: 700m
+    ports:
+      - "9000:9000"
+    networks:
+      - bank
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+       SPRING_PROFILES_ACTIVE: prod
+       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/  
+      
+networks:
+  bank:

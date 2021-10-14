@@ -38,3 +38,18 @@ We must understand the specific path that a service call took as it travelled wi
 - Zipkin is an open-source data-visualization tool that helps aggregate all the logs and gather timing data needed to troubleshoot latency problems in microservices architecture.
 - It allows us to break a transaction down into into components and visually indentify where there might be performance hotspots, thus reducing triage time by contextualizing errors and delays.
 
+<br>
+
+## Implement Distributed Tracing with Spring Cloud Sleuth
+
+1. In*each* of your microservices, add the Spring Cloud Sleuth starter dependency.  It should look like this in your `pom.xml`'s: 
+
+<br>
+
+```xml
+
+```
+
+<br>
+
+    
