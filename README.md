@@ -22,7 +22,7 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 - [**Phase 6: Routing & Cross Cutting Concerns with Spring Cloud Gateway**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase6) :scissors:
 
-- **Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ** :incoming_envelope:
+- [**Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase7) :incoming_envelope:
 
 - **Phase 8: Monitoring Metrics & Health with Prometheus and Grafana** :heartpulse:
 
