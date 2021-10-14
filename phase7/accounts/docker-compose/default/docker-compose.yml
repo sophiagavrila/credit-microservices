@@ -2,6 +2,14 @@ version: "3.8"
 
 services:
 
+  zipkin:
+    image: openzipkin/zipkin
+    mem_limit: 700m
+    ports:
+      - "9411:9411"
+    networks:
+     - bank
+
   configserver:
     image: sophiagavrila/configserver:latest
     mem_limit: 700m
@@ -9,6 +17,9 @@ services:
       - "8071:8071"
     networks:
      - bank
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
      
   eurekaserver:
     image: sophiagavrila/eurekaserver:latest
@@ -28,6 +39,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
 
   accounts:
     image: sophiagavrila/accounts
@@ -49,6 +61,7 @@ services:
        SPRING_PROFILES_ACTIVE: default
        SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+       SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     
   loans:
     image: sophiagavrila/loans
@@ -69,6 +82,7 @@ services:
        SPRING_PROFILES_ACTIVE: default
        SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+       SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     
   cards:
     image: sophiagavrila/cards
@@ -88,7 +102,8 @@ services:
     environment:
        SPRING_PROFILES_ACTIVE: default
        SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
-       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/  
+       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+       SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
        
   gatewayserver:
     image: sophiagavrila/gatewayserver:latest
@@ -113,6 +128,7 @@ services:
       SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+      SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
        
       
 networks:
