@@ -47,9 +47,48 @@ We must understand the specific path that a service call took as it travelled wi
 <br>
 
 ```xml
-
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
 ```
 
 <br>
 
-    
+2. We have a few `log.info()` statements inside of `accounts`, `cards`, and `loans`.  So when we send a POST request to the `myCustomerDetails()` method in the `accounts` services, we should generate a trace id that travels through all 3 services.
+
+3. Start config > eureka > accounts > cards > loans > gateway. Clear all of the consoles. (Alternatively to save your machine and some time, make sure all of your images are pushed and run `docker compose up -d` within `accounts/docker-compose/default`)  Then send a POST request to `accounts` with `{ "customerId" : 1 }` as the Request Body at the location `http://localhost:8072/bank/accounts/myCustomerDetails`
+
+4. After you've sent the request, go the the console of any of your services, like `cards` for example.  (*If you're using docker, run `docker ps` to find the contianer id of your `cards` servce > run `docker logs -f <cards-container id>` to follow the logs within the `cards` container*.  This is the first place that receives the request. 
+
+The logs, with the help of Spring Cloud Sleuth, will look like this:
+
+<br>
+
+```sh
+2021-10-14 12:10:41.501  INFO [cards,10790a3bbef07309,70dfeef6153bfee7] 1 --- [nio-9000-exec-1] c.r.cards.controller.CardsController     : getCardDetails() method started
+2021-10-14 12:10:42.046  INFO [cards,10790a3bbef07309,70dfeef6153bfee7] 1 --- [nio-9000-exec-1] c.r.cards.controller.CardsController     : getCardDetails() method ended
+```
+
+<br>
+
+## Implementing Zipkin for Log Aggregation
+
+1. Set up Zipkin Server with docker on port 9411. Run: `docker run -d -p 9411:9411 openzipkin/zipkin` 
+
+2. Visit the UI provided by Zipkin server by going to `http://localhost:9411/zipkin/` in your browser. There are no traces featured in the console because we have to configure our services! Let's do that.
+
+3. Add the Zipkin dependency to each of your services' `pom.xml`. It should look like this:
+
+<br>
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+</dependency>
+```
+
+<br>
+
+4. Now we have to configure the zipkin endpoint for each service within the service's respective `application.properties` file.
