@@ -24,7 +24,7 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 - [**Phase 7: Distributed Tracing & Log Aggrigation with Spring Cloud Sleuth, Zipkin, and RabbitMQ**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase7) :incoming_envelope:
 
-- **Phase 8: Monitoring Metrics & Health with Prometheus and Grafana** :heartpulse:
+- [**Phase 8: Monitoring Metrics & Health with Prometheus and Grafana**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase7) :heartpulse:
 
 - **Phase 9: Automatic Self-Healing, Scaling & Deployments with Kubernetes** :octopus:
 
