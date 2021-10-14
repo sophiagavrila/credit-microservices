@@ -17,6 +17,8 @@ services:
       - "8071:8071"
     networks:
      - bank
+    depends_on:
+     - zipkin
     environment:
       SPRING_PROFILES_ACTIVE: default
       SPRING_ZIPKIN_BASEURL: http://zipkin:9411/

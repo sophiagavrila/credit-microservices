@@ -158,6 +158,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 
 6. Go back to your microservices where you have added the Rabbit dependencies > in each service's `application.properties` file, add these RabbitMQ related properties:
 
+<br>
+
 ```yaml
 spring.zipkin.sender.type=rabbit
 spring.zipkin.rabbitmq.queue=zipkin
@@ -166,3 +168,7 @@ spring.rabbitmq.port=5672
 spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
 ```
+
+<br>
+
+1. Run `docker compose up -d` again while RabbitMQ is still running.  Send a POST Request.  You'll see these Spring Cloud Sleuth messages appear in RabbitMQ!
