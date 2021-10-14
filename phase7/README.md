@@ -133,7 +133,11 @@ spring.zipkin.baseUrl=http://localhost:9411/
 
 > *This is the end of this phase.  If you're interested in persisting these logs to a data store or stream-analyzation service like Kakfa, you would use RabbitMQ to serve as an asynchronous message service to manage the logs sent from Spring Cloud Sleuth -> to Zipkin -> to any Ddata store of your choice or to Splunk, Kafka, etc.*
 
+<br>
+
 <hr>
+
+<br>
 
 > *Warning, the below steps are very heavy on your system because you would be running RabbitMQ on your server as well.*
 
@@ -194,7 +198,7 @@ services:
         - bank
 ```
 
-8.  You would also make sure that zipkin relies on RabbitMQ.  Additionalyl modify your Zipkin dependency like so:
+8.  You would also make sure that zipkin relies on RabbitMQ.  Additionally modify your Zipkin dependency like so:
 
 <br>
 
