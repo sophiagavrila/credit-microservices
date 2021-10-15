@@ -50,9 +50,9 @@ public class AccountsController {
 	 * Passes customer object as parameter in HTTP Request body and returns Account
 	 * object based on account found by that cusomter's ID.
 	 */
-	@PostMapping("/myAccount")
 	// Add it here - We have names, and described the metric to help us understand how
 	// long it takes to receive a request and return a response.  This configures & exposes a new endpoint.
+	@PostMapping("/myAccount")
 	@Timed(value = "getAccountDetails.time", description = "Time taken to return Account Details")
 	public Accounts getAccountDetails(@RequestBody Customer customer) {
 
@@ -128,7 +128,7 @@ public class AccountsController {
 	@GetMapping("/sayHello")
 	@RateLimiter(name = "sayHello", fallbackMethod = "sayHelloFallback")
 	public String sayHello() {
-		return "Hello, Welcome to the Bank";
+		return "Hello Kubernetes!";
 	}
 
 	private String sayHelloFallback(Throwable t) {

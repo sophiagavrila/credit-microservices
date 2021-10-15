@@ -120,7 +120,93 @@ In our `accounts/kubernetes` directory, we have a file called `1_configmaps.yml`
 
 1. In Google Cloud shell you could either git clone in your repo OR you clan click on the veritcal elipses in the top right of the shell and click upload which will allow you to upload the file directly.
 
-2. Once the file is on the cloud, apply the environment variables with the command:  `kubectl apply -f 1_configmaps.yaml` > a message will return saying it's been successfull.
+2. Once the file is on the cloud, apply the environment variables with the command:  `kubectl apply -f 1_configmaps.yaml` (`-f` is for "file")> a message will return saying it's been successfull.
 
 3. Go to the **Configuration** section of your project and you'll see a new config has been added called `bank-config`.  
     > If you click on this you can see the YAML output that Kubernetes generates for declaring environment variables.
+    <br>
+
+4. You can retrive your configmap with the command `kubectl get configmap` - alternatively you can delete a config map with `kubectl delete configmap <config-map-name>` (but we don't want tot do that)
+
+<br>
+
+## Deploy our Microservices to Kubernetes Cluster
+We will deploy all of our microservices according to the numbered order of the `.yml` files in the `kubernetes` directory.  The commands we will be using are listed at the bottom of this page.
+
+1. Upload the `kubernetes` folder to the cloud (or you could git clone it in if you please)
+
+2. `cd` into the newly uploaded folder > run `kubectl -f 2_zipkin.yml` (remember that in our zipkin config we have it deployes and we need it exposed to outside world)
+
+3. Do the same for 3 -5. This deploys them all.
+
+4. run: `kubectl get pods` to see all pods.  Here we see under `READY` the 1 represents the 1 replica and it is fully healthy as expected. (except for accounts where we have 2).
+
+5. run `kubectl get deployments` to see all deployments
+
+> *What's the difference? A pod is the core building block for running applications in a Kubernetes cluster; a deployment is a management tool used to control the way pods behave.  For example, Kubernetes deployments can be used to roll out a ReplicaSet to create pods and check their health to see if they are working optimally.*
+
+6. run `kubectl get services` to see all services.  What do you see?
+    > - `EXTERNAL-IP` - Each pod has its own IP address which is what is exposed to the outside world
+    > - `CLUSTER-IP` - Is the address the cluster maintains to interact with various components
+
+7. run `kubectl get replicaset` shows how many instance deployed into K8s cluster.
+
+8. If you go to "Services and Ingress" you can view all of the services. (Same with deployments in Workloads)
+
+9. Click **Clusters** > click on yours > go to **Nodes** and take a look.
+
+<br>
+
+## Validating our microservices deployed in K8s cluster
+
+1. Go to Services & Ingress in your GKE dashboard.  Here you will find all of your services plus their endpoints that an end user can visit
+
+2. Start with Zipkin, then try Eureka, then go to ConfigServer and navigate to `<endpoint>:8071/account/dev` to see the configuration properties.
+
+3. You can also try testing out the `@RateLimiter` patter we set up with out Circuit breaker by going to `http://endpoint:8080/sayHello`
+
+<br>
+
+## Automatic Self-Healing inside K8s cluster
+If you run kubectl get pods, your `5_accounts.yml` file declares that it should have 2 replicas, which are currently being maintained by a load balancer on 2 deployments...So let's kill one!
+
+1. Run `kubectl delete pod accounts-deployment-<number>`
+
+2. You'll see a message saying it's been deleted...but if you run `kubectl get pods` again you'll see it's immediately reinstated!
+
+<br>
+
+## Automatic Rollout & Rollback inside K8s cluster
+I have gone ahead and made a change in my `accounts` source code.  I changed the `sayHello()` method to return "Hello Kubernetes!".  I have generated a new image and pushed it to Docker Hub.  It's called `sophiagavrila/accounts:k8s`.  Here we will explore how to rollout this new version with no down time. Additionally, we'll explore how to roll back to and older version.
+
+
+<br>
+
+## Kubernetes Commands used in this Module
+
+|     Kubernetes Command       |     Description          |
+| ------------- | ------------- |
+| "kubectl apply -f filename" | To create a deployment/service/configmap based on a given YAML file |
+| "kubectl get all" | To get all the components inside your cluster |
+| "kubectl get pods" | To get all the pods details inside your cluster |
+| "kubectl get pod pod-id" | To get the details of a given pod id |
+| "kubectl describe pod pod-id" | To get more details of a given pod id |
+| "kubectl delete pod pod-id" | To delete a given pod from cluster |
+| "kubectl get services" | To get all the services details inside your cluster |
+| "kubectl get service service-id" | To get the details of a given service id |
+| "kubectl describe service service-id" | To get more details of a given service id |
+| "kubectl get nodes" | To get all the node details inside your cluster |
+| "kubectl get node node-id" | To get the details of a given node |
+| "kubectl get replicasets" | To get all the replica sets details inside your cluster |
+| "kubectl get replicaset replicaset-id" | To get the details of a given replicaset |
+| "kubectl get deployments" | To get all the deployments details inside your cluster |
+| "kubectl get deployment deployment-id" | To get the details of a given deployment |
+| "kubectl get configmaps" | To get all the configmap details inside your cluster |
+| "kubectl get configmap configmap-id" | To get the details of a given configmap |
+| "kubectl get events --sort-by=.metadata.creationTimestamp" | To get all the events occured inside your cluster |
+| "kubectl scale deployment accounts-deployment --replicas=3" | To increase the number of replicas for a deployment inside your cluster |
+| "kubectl set image deployment accounts-deployment accounts=eazybytes/accounts:k8s" | To set a new image for a deployment inside your cluster |
+| "kubectl rollout history deployment accounts-deployment" | To know the rollout history for a deployment inside your cluster |
+| "kubectl rollout undo deployment accounts-deployment --to-revision=1" | To rollback to a given revision for a deployment inside your cluster |
+| "kubectl autoscale deployment accounts-deployment --min=3 --max=10 --cpu-percent=70" | To create automatic scaling using HPA for a deployment inside your cluster |
+| "kubectl logs node-id" | To get a logs of a given node inside your cluster |
