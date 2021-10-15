@@ -8,6 +8,11 @@ The Docker images for all services within this application (except for `accounts
 mvn spring-boot:build-image -Dmaven.test.skip=true`
 ```
 
+### Deployment YML's
+- Final `docker-compose` files are in `phase9/accounts/docker-compose/<env>`
+- Final `docker-compose` files for monitoring are in `phase9/accounts/docker-compose/monitoring` 
+- Kubernetes manifests are in `phase9/accounts/kubernetes`
+
 
 <br>
 
