@@ -5,7 +5,7 @@ Despite the many advantages of Microservices there are a fair few drawbacks to d
 The Docker images for all services within this application (except for `accounts`) were generated automatically using Cloud Native Buildpacks. The command used to generate them (in the root directory of each service) is: 
 
 ```
-mvn spring-boot:build-image -Dmave.test.skip=true`
+mvn spring-boot:build-image -Dmaven.test.skip=true`
 ```
 
 
