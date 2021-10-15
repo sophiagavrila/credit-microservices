@@ -86,7 +86,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>your-username/${project.artifactId}:phase8</name>
+						<name>sophiagavrila/${project.artifactId}:phase8</name>
 					</image>
 				</configuration>
 			</plugin>

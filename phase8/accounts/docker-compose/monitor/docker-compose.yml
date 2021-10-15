@@ -6,6 +6,7 @@ services:
     image: "grafana/grafana:latest"
     ports:
       - "3000:3000"
+    # WHen we open the UI, we will be asked to login with these credentials
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=password
