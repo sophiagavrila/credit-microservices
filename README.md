@@ -1,6 +1,14 @@
 # Credit Microservices
 Despite the many advantages of Microservices there are a fair few drawbacks to distributed architecture including complexity, operational overhead, security, and performance. I have created a nine-phase guide to teach you how to solve these problems through the implementation of the most widely used technologies in the industry. By phase9 you will have fully deployed a microservices application to a Kubernetes GKE cluster, complete with distributed tracing and performance monitoring.  Enjoy!
 
+#### *Note:* <br>
+The Docker images for all services within this application (except for `accounts`) were generated automatically using Cloud Native Buildpacks. The command used to generate them (in the root directory of each service) is: 
+
+```
+mvn spring-boot:build-image -Dmave.test.skip=true`
+```
+
+
 <br>
 
 ## Topics Covered
