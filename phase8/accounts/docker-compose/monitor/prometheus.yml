@@ -1,0 +1,20 @@
+global:
+  scrape_interval:     5s # Scrape new data every 5 seconds from your microservices
+  evaluation_interval: 5s # Evaluate that data every 5 seconds.
+scrape_configs:
+  # identify microservices to monitor
+  - job_name: 'accounts'
+    # endpoint exposed by the service with data on health 
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    # define host + port number
+    # why accounts instead of localhost? The host name is Docker service name when calling another container
+    - targets: ['accounts:8080']
+  - job_name: 'loans'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    - targets: ['loans:8090']
+  - job_name: 'cards'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    - targets: ['cards:9000']

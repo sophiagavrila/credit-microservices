@@ -91,7 +91,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>sophiagavrila/${project.artifactId}</name>
+						<name>sophiagavrila/${project.artifactId}:phase8</name>
 					</image>
 					<excludes>
 						<exclude>
