@@ -11,7 +11,7 @@ services:
      - bank
 
   configserver:
-    image: sophiagavrila/configserver:latest
+    image: sophiagavrila/configserver:phase8
     mem_limit: 700m
     ports:
       - "8071:8071"
@@ -24,7 +24,7 @@ services:
       SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
      
   eurekaserver:
-    image: sophiagavrila/eurekaserver:latest
+    image: sophiagavrila/eurekaserver:phase8
     mem_limit: 700m
     ports:
       - "8070:8070"
@@ -44,7 +44,7 @@ services:
       SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
 
   accounts:
-    image: sophiagavrila/accounts
+    image: sophiagavrila/phase8
     mem_limit: 700m
     ports:
       - "8080:8080"
@@ -66,7 +66,7 @@ services:
        SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     
   loans:
-    image: sophiagavrila/loans
+    image: sophiagavrila/phase8
     mem_limit: 700m
     ports:
       - "8090:8090"
@@ -87,7 +87,7 @@ services:
        SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     
   cards:
-    image: sophiagavrila/cards
+    image: sophiagavrila/cards:phase8
     mem_limit: 700m
     ports:
       - "9000:9000"
@@ -108,7 +108,7 @@ services:
        SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
        
   gatewayserver:
-    image: sophiagavrila/gatewayserver:latest
+    image: sophiagavrila/gatewayserver:phase8
     mem_limit: 700m
     ports:
       - "8072:8072"
