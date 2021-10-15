@@ -69,3 +69,66 @@ Kubernetes will handle your cluster of nodes within your Microservices architect
     > Each pod has an IP address which forwards teh address of the containers and can be accessed via kube-proxy.
 
 *You can learn more about the above topics [here](https://kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-intro/)*
+
+<br>
+
+<hr>
+
+<br>
+
+# Create a Kubernetes Cluster on Google Cloud Platform (GCP)
+The most popular cloud services for hosting a K8s cluster are Amazon Web Services (AWS), Azure Kubernetes Service (AKS), and Google Cloud Platform (GCP).  If you can use Kubernetes on one of these platforms, you can use it on all of them because the CLI commands for `kubectl` don't change.  We will create our K8s cluster on GCP because it's free to sign up and you won’t be charged unless you manually upgrade to a paid account.
+
+1. Go to cloud.google.com > Click "Start for Free" > You will have to provide credit card information, but you will not be auto charged after your free trial.
+
+2. Edit the value of your auto-generated project -> call it "Microservices" 
+
+3. Search for Kubernetes Engine (it should be on the left panel) > click **Create** > select standard configurations > you can leave the name as `cluster-1` > leave the rest of the settings as defaults and click create at the bottom.
+
+4. The cluster creation will take about 3 min > when you're done click on it to explore > you will see the metrics about the cluster, which you can explore.  Similar to what the previous tools provided us with
+
+5. We need to add logs & monitoring for the services we will deploy > search for `loggging` within the search bar > click on **Cloud Logging Api**.  Once you find it, click "Enable"
+
+6. Search for **"Stackdriver** and add enable  5 APIs"
+    - Stackdriver API
+    - Stackdriver Manager API 
+    - Stackdriver Tract API
+    - Stackdriver Error Reporting API
+    - Stackdriver Profiler API
+
+7. Go back to your cluster page > Click the vertical elipses on the right of the section and select **"connect** > click `RUN IN CLOUD SHELL` > it will automatically paste the command, just press enter and AUTHORIZE.
+
+8. When you're in cluster you can run the command `kubectl get nodes` and see all nodes. 
+
+9. Run `kubectl get pods` (there are none so far) and `kubectl get deployment`.
+
+10. `kubectl get all` will return all services and you'll be able to see the `kube-proxy`
+
+<br>
+
+## Setup Deployment YAML files
+We will configure our services with Kubernetes YAML configuration files (similar to docker-compose files).
+
+1. Back in your IDE in `accounts`, make a new directory called `kubernetes`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+We will use cloud shell https://cloud.google.com/shell
