@@ -27,7 +27,7 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 <br>
 
 #### *Note:* <br>
-The Docker images for all services within this application (except for `accounts`) were generated automatically using Cloud Native Buildpacks. The command used to generate them (in the root directory of each service) is: 
+The Docker images for all services within this application (except for `accounts`) were generated automatically using [Cloud Native Buildpacks](https://buildpacks.io/). The command used to generate them (in the root directory of each service) is: 
 
 ```
 mvn spring-boot:build-image -Dmaven.test.skip=true`
@@ -36,7 +36,7 @@ mvn spring-boot:build-image -Dmaven.test.skip=true`
 ### Deployment YML's
 - Final `docker-compose` files are in `phase9/accounts/docker-compose/<env>`
 - Final `docker-compose` files for monitoring are in `phase9/accounts/docker-compose/monitoring` 
-- Kubernetes manifests are in `phase9/accounts/kubernetes`
+- Kubernetes manifests are in [`phase9/accounts/kubernetes`](https://github.com/sophiagavrila/credit-microservices/tree/main/phase9/accounts/kubernetes)
 
 
 <br>
