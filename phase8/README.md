@@ -306,4 +306,4 @@ Grafana is a multi-platform open source analytics and interactive visualization 
 
 7. **Create a Dashboard**: There are many Grafana templates that you can use like [this](https://grafana.com/grafana/dashboards/11378).  In Grafana, go to localhost:3000/dashboard/import and paste in the URL of the dashboard of your choice i.e `https://grafana.com/grafana/dashboards/11378` > click load > scroll down, add prometheus as your data source and you're good to go!
 
-> *You can learn about building custom Grafana Dashboards [here]()*
+> *You can learn about building custom Grafana Dashboards [here](https://tsh.io/blog/grafana-custom-dashboard/)*.

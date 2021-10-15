@@ -72,7 +72,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>sophiagavrila/${project.artifactId}</name>
+						<name>sophiagavrila/${project.artifactId}:phase7</name>
 					</image>
 				</configuration>
 			</plugin>

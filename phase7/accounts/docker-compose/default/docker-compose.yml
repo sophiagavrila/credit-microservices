@@ -44,7 +44,7 @@ services:
       SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
 
   accounts:
-    image: sophiagavrila/accounts
+    image: sophiagavrila/accounts:latest
     mem_limit: 700m
     ports:
       - "8080:8080"
@@ -66,7 +66,7 @@ services:
        SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     
   loans:
-    image: sophiagavrila/loans
+    image: sophiagavrila/loans:latest
     mem_limit: 700m
     ports:
       - "8090:8090"
@@ -87,7 +87,7 @@ services:
        SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     
   cards:
-    image: sophiagavrila/cards
+    image: sophiagavrila/cards:latest
     mem_limit: 700m
     ports:
       - "9000:9000"
