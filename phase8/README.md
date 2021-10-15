@@ -1,13 +1,13 @@
 # Phase 8: Monitoring Metrics & Health with Prometheus and Grafana
-There is a goldmine of information about each of our microservices that is avialable at endpoints provided to us by actuator.
+There is a goldmine of information about each of our microservices that is avialable at endpoints provided to us by Spring Boot Actuator.  With the use of Micrometer, we can create custom metrics as well, and format all of the data so that it can be read by Prometheus.  Prometheus will read this data an display it in a UI.
 
 ## Setup Micrometer Inside Microservices
 
 1.  Inside the 3 microservices `cards`, `accounts`, and `cards` add the following dependencies:
-    - **Micrometer** - This will collect data from our actuaro endpoints and prepare metrics data.
-    - **Prometheus** - Will feed on the data from Micrometer and allow us to query/visualize this data
+    - **Micrometer** - This will collect data from our Actuator endpoints and format it for Prometheus to scrape.
+    - **Prometheus** - Will feed on the data from Micrometer and allow us to query/visualize this data.
         - *Eventually we will use Grafana to build a rich UI dashboard of this data*
-    - Make sure you have **AOP** dependency within `accounts` as well.  This is because we will deliver cusotm metrics from accounts
+    - Make sure you have **AOP** dependency within `accounts` as well.  This is because we will deliver customm metrics from accounts in the form of an Aspect.
 
 2. In `accounts` `AccountsApplication` class add the following `@Bean`. Paste the following:
 
