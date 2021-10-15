@@ -34,8 +34,8 @@ mvn spring-boot:build-image -Dmaven.test.skip=true`
 ```
 
 ### Deployment YML's
-- Final `docker-compose` files are in `phase9/accounts/docker-compose/<env>`
-- Final `docker-compose` files for monitoring are in `phase9/accounts/docker-compose/monitoring` 
+- Final `docker-compose` files are in [`phase9/accounts/docker-compose/<env>`](https://github.com/sophiagavrila/credit-microservices/blob/main/phase9/accounts/docker-compose/default/docker-compose.yml)
+- Final `docker-compose` files for monitoring are in [`phase9/accounts/docker-compose/monitoring`](https://github.com/sophiagavrila/credit-microservices/tree/main/phase9/accounts/docker-compose/monitor)
 - Kubernetes manifests are in [`phase9/accounts/kubernetes`](https://github.com/sophiagavrila/credit-microservices/tree/main/phase9/accounts/kubernetes)
 
 
