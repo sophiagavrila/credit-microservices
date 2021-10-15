@@ -111,28 +111,16 @@ We will configure our services with Kubernetes YAML configuration files (similar
 
 1. Back in your IDE in `accounts`, make a new directory called `kubernetes`
 
-2. Go to the kubernetes directory of this repository and copy/paste the contents of those 5 files into your project.
+2. Go to the kubernetes directory of this repository and copy/paste the [contents of those 5 files](https://github.com/sophiagavrila/credit-microservices/tree/main/phase9/accounts/kubernetes) into your project.
 
+<br>
 
+## Create environment variables inside K8s cluster using ConfigMap
+In our `accounts/kubernetes` directory, we have a file called `1_configmaps.yml`.  We will apply the key-value configuration to our kubernetes cluster with a single command.
 
+1. In Google Cloud shell you could either git clone in your repo OR you clan click on the veritcal elipses in the top right of the shell and click upload which will allow you to upload the file directly.
 
+2. Once the file is on the cloud, apply the environment variables with the command:  `kubectl apply -f 1_configmaps.yaml` > a message will return saying it's been successfull.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-We will use cloud shell https://cloud.google.com/shell
+3. Go to the **Configuration** section of your project and you'll see a new config has been added called `bank-config`.  
+    > If you click on this you can see the YAML output that Kubernetes generates for declaring environment variables.
