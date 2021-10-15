@@ -27,7 +27,7 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 - [**Phase 8: Monitoring Metrics & Health with Prometheus and Grafana**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase8) :heartpulse:
 
-- [**Phase 9: Automatic Self-Healing, Scaling & Deployments with Kubernetes**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase8) :octopus:
+- [**Phase 9: Automatic Self-Healing, Scaling & Deployments with Kubernetes**](https://github.com/sophiagavrila/credit-microservices/tree/main/phase9) :octopus:
 
 <br>
 
