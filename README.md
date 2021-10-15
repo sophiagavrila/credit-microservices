@@ -1,9 +1,4 @@
 # Credit Microservices
-A Spring Boot based microservices application deployed on AWS cloud, containerized and orchestrated with Docker &amp; Kubernetes. Designed to model the appropriate deconstruction of a banking credit/loan accounting monolith
-
-### *What are Microservices*?
-Microservices are a form of service-oriented architecture style wherein applications are built as a collection of different smaller services rather than one whole app.  Microservices architecture breaks apps down into their smallest components, independent from eachother.
-
 Despite the many advantages of Microservices there are a fair few drawbacks to distributed architecture including complexity, operational overhead, security, and performance. I have created a nine-phase guide to teach you how to solve these problems through the implementation of the most widely used technologies in the industry. By Phase9 you will have a fully deployed, auto-scaling application with distributed tracing and performance monitoring.  Enjoy!
 
 <br>
@@ -31,5 +26,6 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 <br>
 
-*Finished!* :tada:
+### *What are Microservices*?
+Microservices are a form of service-oriented architecture style wherein applications are built as a collection of different smaller services rather than one whole app.  Microservices architecture breaks apps down into their smallest components, independent from eachother.
 
