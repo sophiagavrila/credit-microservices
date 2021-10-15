@@ -106,7 +106,7 @@ The most popular cloud services for hosting a K8s cluster are Amazon Web Service
 
 <br>
 
-## Setup Deployment YAML files
+## 1. Setup Deployment YAML files
 We will configure our services with Kubernetes YAML configuration files (similar to docker-compose files).
 
 1. Back in your IDE in `accounts`, make a new directory called `kubernetes`
@@ -115,7 +115,7 @@ We will configure our services with Kubernetes YAML configuration files (similar
 
 <br>
 
-## Create environment variables inside K8s cluster using ConfigMap
+## 2. Create environment variables inside K8s cluster using ConfigMap
 In our `accounts/kubernetes` directory, we have a file called `1_configmaps.yml`.  We will apply the key-value configuration to our kubernetes cluster with a single command.
 
 1. In Google Cloud shell you could either git clone in your repo OR you clan click on the veritcal elipses in the top right of the shell and click upload which will allow you to upload the file directly.
@@ -130,7 +130,7 @@ In our `accounts/kubernetes` directory, we have a file called `1_configmaps.yml`
 
 <br>
 
-## Deploy our Microservices to Kubernetes Cluster
+## 3. Deploy our Microservices to Kubernetes Cluster
 We will deploy all of our microservices according to the numbered order of the `.yml` files in the `kubernetes` directory.  The commands we will be using are listed at the bottom of this page.
 
 1. Upload the `kubernetes` folder to the cloud (or you could git clone it in if you please)
@@ -157,7 +157,7 @@ We will deploy all of our microservices according to the numbered order of the `
 
 <br>
 
-## Validating our microservices deployed in K8s cluster
+## 4. Validating our microservices deployed in K8s cluster
 
 1. Go to Services & Ingress in your GKE dashboard.  Here you will find all of your services plus their endpoints that an end user can visit
 
@@ -167,7 +167,7 @@ We will deploy all of our microservices according to the numbered order of the `
 
 <br>
 
-## Automatic Self-Healing inside K8s cluster
+## 5. Automatic Self-Healing inside K8s cluster
 If you run kubectl get pods, your `5_accounts.yml` file declares that it should have 2 replicas, which are currently being maintained by a load balancer on 2 deployments...So let's kill one!
 
 1. Run `kubectl delete pod accounts-deployment-<number>`
@@ -176,18 +176,66 @@ If you run kubectl get pods, your `5_accounts.yml` file declares that it should 
 
 <br>
 
-## Automatic Rollout & Rollback inside K8s cluster
+## 6. Automatic Rollout & Rollback inside K8s cluster
 I have gone ahead and made a change in my `accounts` source code.  I changed the `sayHello()` method to return "Hello Kubernetes!".  I have generated a new image and pushed it to Docker Hub.  It's called `sophiagavrila/accounts:k8s`.  Here we will explore how to **rollout** this new version with no down time. Additionally, we'll explore how to **rollback** to and older version.
 
 1. First examine your deployments with `kubectl get deployments`
 
-2.  You can scale this deployment with the command `kubectl scale deployment accounts-deployment --replicas=3`
+2.  You can scale this deployment with the command `kubectl scale deployment accounts-deployment --replicas=3` 
 
-3. Now if you run `get pods`
+3. Now if you run `get pods` you will see a third accounts deployment!
+
+Now we want to change the docker image that's being deployed.
+
+4. Run `kubectl describe pod acounts-deployement-<long-id-number>` > You will be able to see the docker image it came frmo which is not what we want.
+
+5. To set a new image for this deployment to use run the following command (keep in mind that the `accounts=` part is referencing the `accounts` container namekubectrl  field in `5_accounts.yml`):
+
+<br>
+
+```kubectl
+kubectl set image deployment accounts-deployment accounts=sophiagavrila/accounts:k8s
+```
+
+<br>
+
+6. Run `kubectl get pods` you'll see that all pods are running > run `kubectl describe pod accounts-deployment-<long number id>` to check the newly updated image.
+
+7. To **ROLLBACK** we can show the history with `kubectl rollout history deployment accounts-deployment`
+
+8. You will see two entries, revert back to the first with the original docker image with `kubectl rollout undo deployment accounts-deployment --to-revision=1`
+
+9. To view any logs, the GKE dashboard is best, but you can peer inside containers with `kubectl logs <pod-name>`
+
+<br>
+
+## 7. Autoscaling inside K8s cluster with HPA (*Horizontal Pod Autoscaler*)
+Horizontal Pod Autoscaler automatically scales the number of Pods in a replication controller, deployment, replica set or stateful set based on observed CPU utilization (or, with beta support, on some other, application-provided metrics).
+
+1. Run `kubectl get hpa` > you will see we have no rules set up for auoscaling...let's make some!
+
+2. Below we are defining a rule to automatically scale pods. Whenever a Pod's CPU utilization reaches 70%, make another pod to decrease the load.  We are setting a maximum and minimum amount.  (We don't want to infinitely scale in thecase that someone spams our network). 
+
+<br>
+
+```
+kubectl autoscale deployment accounts-deployment --min=3 --max=10 --cpu-percent=70
+```
+
+<br>
+
+## 8. Delete your K8s cluster
+Open the Kubernetes Engine dashboard (you can close out of cloud shell) and go to your **Clusters** dashboard.  Click the check mark next to your cluster.  In the top right click delete, and you're good to go!
+ 
+<br>
+
+<hr>
 
 <br>
 
 ## Kubernetes Commands used in this Module
+
+<br>
 
 |     Kubernetes Command       |     Description          |
 | ------------- | ------------- |
