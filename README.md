@@ -1,19 +1,6 @@
 # Credit Microservices
 Despite the many advantages of Microservices there are a fair few drawbacks to distributed architecture including complexity, operational overhead, security, and performance. I have created a nine-phase guide to teach you how to solve these problems through the implementation of the most widely used technologies in the industry. By phase9 you will have fully deployed a microservices application to a Kubernetes GKE cluster, complete with distributed tracing and performance monitoring.  Enjoy!
 
-#### *Note:* <br>
-The Docker images for all services within this application (except for `accounts`) were generated automatically using Cloud Native Buildpacks. The command used to generate them (in the root directory of each service) is: 
-
-```
-mvn spring-boot:build-image -Dmaven.test.skip=true`
-```
-
-### Deployment YML's
-- Final `docker-compose` files are in `phase9/accounts/docker-compose/<env>`
-- Final `docker-compose` files for monitoring are in `phase9/accounts/docker-compose/monitoring` 
-- Kubernetes manifests are in `phase9/accounts/kubernetes`
-
-
 <br>
 
 ## Topics Covered
@@ -39,6 +26,20 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 
 <br>
 
+#### *Note:* <br>
+The Docker images for all services within this application (except for `accounts`) were generated automatically using Cloud Native Buildpacks. The command used to generate them (in the root directory of each service) is: 
+
+```
+mvn spring-boot:build-image -Dmaven.test.skip=true`
+```
+
+### Deployment YML's
+- Final `docker-compose` files are in `phase9/accounts/docker-compose/<env>`
+- Final `docker-compose` files for monitoring are in `phase9/accounts/docker-compose/monitoring` 
+- Kubernetes manifests are in `phase9/accounts/kubernetes`
+
+
+<br>
+
 ### *What are Microservices*?
 Microservices are a form of service-oriented architecture style wherein applications are built as a collection of different smaller services rather than one whole app.  Microservices architecture breaks apps down into their smallest components, independent from eachother so that they may be easily scaled and shipped.
-
