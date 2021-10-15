@@ -133,7 +133,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-						<name>sophiagavrila/${project.artifactId}:phase8</name>
+						<name>sophiagavrila/${project.artifactId}:k8s</name>
 					</image>
 					<excludes>
 						<exclude>

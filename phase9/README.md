@@ -177,8 +177,13 @@ If you run kubectl get pods, your `5_accounts.yml` file declares that it should 
 <br>
 
 ## Automatic Rollout & Rollback inside K8s cluster
-I have gone ahead and made a change in my `accounts` source code.  I changed the `sayHello()` method to return "Hello Kubernetes!".  I have generated a new image and pushed it to Docker Hub.  It's called `sophiagavrila/accounts:k8s`.  Here we will explore how to rollout this new version with no down time. Additionally, we'll explore how to roll back to and older version.
+I have gone ahead and made a change in my `accounts` source code.  I changed the `sayHello()` method to return "Hello Kubernetes!".  I have generated a new image and pushed it to Docker Hub.  It's called `sophiagavrila/accounts:k8s`.  Here we will explore how to **rollout** this new version with no down time. Additionally, we'll explore how to **rollback** to and older version.
 
+1. First examine your deployments with `kubectl get deployments`
+
+2.  You can scale this deployment with the command `kubectl scale deployment accounts-deployment --replicas=3`
+
+3. Now if you run `get pods`
 
 <br>
 
