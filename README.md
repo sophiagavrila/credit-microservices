@@ -27,5 +27,5 @@ This guide is broken into several modules for learning Microservices, Telemetry,
 <br>
 
 ### *What are Microservices*?
-Microservices are a form of service-oriented architecture style wherein applications are built as a collection of different smaller services rather than one whole app.  Microservices architecture breaks apps down into their smallest components, independent from eachother.
+Microservices are a form of service-oriented architecture style wherein applications are built as a collection of different smaller services rather than one whole app.  Microservices architecture breaks apps down into their smallest components, independent from eachother so that they may be easily scaled and shipped.
 
