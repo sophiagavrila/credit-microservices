@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment # Deployment Instructions
+metadata:
+  name: zipkin-deployment
+  labels:
+    app: zipkin # This will help us when we refer to this deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zipkin
+  template:
+    metadata:
+      labels:
+        app: zipkin
+    spec: # This is Docker container configuration
+      containers:
+      - name: zipkin
+        image: openzipkin/zipkin
+        ports:
+        - containerPort: 9411
+--- # we are telling yaml to treat it as 2 files
+apiVersion: v1 # Service Configurations to serve to outside world
+kind: Service
+metadata:
+  # This is the name that other services in our cluster will call
+  name: zipkin-service 
+spec:
+  selector:
+    app: zipkin
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 9411
+      targetPort: 9411

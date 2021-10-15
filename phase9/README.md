@@ -111,6 +111,10 @@ We will configure our services with Kubernetes YAML configuration files (similar
 
 1. Back in your IDE in `accounts`, make a new directory called `kubernetes`
 
+2. Go to the kubernetes directory of this repository and copy/paste the contents of those 5 files into your project.
+
+
+
 
 
 
