@@ -194,15 +194,7 @@ docker tag sophia/loans sophiagavrila/loans
 
 Now go back to hub.docker.com and you'll see your newly created repository. Similarly, you can pull images with `docker pull`.
 
-7. Push both your `cards` and `accounts` images.  You can also push images by renaming (tagging) them to your repository name `/` image tag like so:
-
-```
-docker image tag not-my-repo-name/cards sophiagavrila/cards
-
-docker push sophiagavrila/cards
-```
-
-<br>
+7. Push both your `cards` and `accounts` images to your dockerhub repository.
 
 <br>
 
