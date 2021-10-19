@@ -1,11 +1,11 @@
 # Phase 2: Build Deploy and Scale Microservices with Docker
-With a monolithic application, there is typically one WAR file that you can deploy on one server. With microservices, as the number of services increase, it becomes very difficult to manage and deploy each service. This is where Docker comes in.
+With a monolithic application, there is typically one WAR file that you can deploy on one server. With microservices, as the number of services increases, it becomes very difficult to manage and deploy each service. This is where Docker comes in.
 
 If we were deploy each of our services (loans, cards, and accounts) the traditional way, we would need three separate servers (think of three different EC2's that you rent through AWS).  This would be difficult and expensive.
 
 **Hypervisor** was the original solution to this problem, which enabled the dev to run multiple **Virtual Machines** with their own operating systems.  The Hypervisor is in charge of distributing the total amount of RAM and hard disk available across multiple virtual machines. However, this is very resource heavy and expensive. 
 
-**Docker** introduced the concept of **containerization**.  Ontop of the server's physical hardware runs the server's host operating system - be it MacOS, Windows, or Linux.  The Docker Engine is responsible for ditributing and assigning resources as per the demand of the containers. Inside the containers you don't need an operating system either.  You just need the libraries necessary for installing your service.  Since containers can be stopped/restarted with ease and quickly, the end user will not be affected with all these happening in the backend.
+**Docker** introduced the concept of **containerization**.  Ontop of the server's physical hardware runs the server's host operating system - be it MacOS, Windows, or Linux.  Ontop of the host OS is the Docker Engine which is responsible for ditributing and assigning resources as per the demand of the containers. Inside the containers you don't need an operating system either.  You just need the libraries necessary for installing your service.  Since containers can be stopped/restarted with ease and quickly, the end user will not be affected with all these happening in the backend.
 
 <br>
 
@@ -60,7 +60,7 @@ ENTRYPOINT ["java", "-jar", "/accounts-0.0.1-SNAPSHOT.jar"]
 
 <br>
 
-> :exclamation: *Before we build an image make sure that you have Docker Desktop downloaded.  Then click on its executable icon and make sure the Docker engine is running on your computer before continuing.*
+> :exclamation: *Before we build an image make sure that you have [Docker Desktop](https://www.docker.com/products/docker-desktop) downloaded.  Then click on its executable icon and make sure the Docker engine is running on your computer before continuing.*
 
 2. First build the JAR file with maven so Docker can copy it into the container. In the root directory of your project open a terminal and run `mvn clean install`. This will generate `accounts-0.0.1-SNAPSHOT` in the `target/` directory of your project.
 
