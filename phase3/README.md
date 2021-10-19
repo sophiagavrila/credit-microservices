@@ -56,7 +56,7 @@ We will create a Spring Boot application will act as a Config Server where it wi
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
                 <image>
-                    <name>sophia/${project.artifactId}</name>
+                    <name>your-dockerhub-username/${project.artifactId}</name>
                 </image>
             </configuration>
         </plugin>
