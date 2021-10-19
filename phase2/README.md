@@ -69,7 +69,7 @@ ENTRYPOINT ["java", "-jar", "/accounts-0.0.1-SNAPSHOT.jar"]
 <br>
 
 ```
-docker build . -t sophia/accounts
+docker build . -t sophiagavrila/accounts
 ```
 
 <br>
