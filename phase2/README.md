@@ -88,7 +88,7 @@ The above command will start the container in "detached mode" due to the `-d`.
 <br>
 
 ```
-docker run -d -p 8081:8080 sophia/accounts
+docker run -d -p 8081:8080 sophiagavrila/accounts
 ```
 
 <br>
