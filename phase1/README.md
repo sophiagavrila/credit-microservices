@@ -1,6 +1,6 @@
 # Phase 1: Understanding Each Service
 
-1.  Clone the Microservices application complete with the following Spring Boot services:
+1.  Clone [this Microservices application](https://github.com/sophiagavrila/credit-microservices-template) complete with the following Spring Boot services.  I reccomend distributing the template through [GitHub Classroom](https://classroom.github.com/):
   - **Accounts**
   - **Loans**
   - **Cards**
